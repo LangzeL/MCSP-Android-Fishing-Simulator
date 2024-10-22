@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\FishSpawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Script\\FishSpawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\FishSpawn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Script\\FishSpawn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\SensorTest\\FishController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\SensorTest\\FishController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -35,19 +43,42 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "FishSpawner.cs",
+              "DocumentMoniker": "C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\FishSpawner.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\FishSpawner.cs",
+              "ToolTip": "C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\FishSpawner.cs",
+              "RelativeToolTip": "Assets\\Script\\FishSpawner.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAYwBkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T22:10:28.168Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FishSpawn.cs",
+              "DocumentMoniker": "C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\FishSpawn.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\FishSpawn.cs",
+              "ToolTip": "C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\FishSpawn.cs",
+              "RelativeToolTip": "Assets\\Script\\FishSpawn.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T11:16:36.975Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "FishController.cs",
               "DocumentMoniker": "C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\SensorTest\\FishController.cs",
               "RelativeDocumentMoniker": "Assets\\SensorTest\\FishController.cs",
               "ToolTip": "C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\SensorTest\\FishController.cs",
               "RelativeToolTip": "Assets\\SensorTest\\FishController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABoAAABxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-22T11:12:47.402Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-22T11:12:47.402Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "AIFishControl.cs",
               "DocumentMoniker": "C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\Fishing_System_Assets\\Main_Scripts\\Fish_AI_System\\Scripts\\AIFishControl.cs",
               "RelativeDocumentMoniker": "Assets\\Fishing_System_Assets\\Main_Scripts\\Fish_AI_System\\Scripts\\AIFishControl.cs",
@@ -59,7 +90,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "FishBehavior.cs",
               "DocumentMoniker": "C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\FishBehavior.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\FishBehavior.cs",
@@ -67,12 +98,11 @@
               "RelativeToolTip": "Assets\\Script\\FishBehavior.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAAAYwBYAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-22T08:22:08.888Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-22T08:22:08.888Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "FishHookEvent.cs",
               "DocumentMoniker": "C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\FishHookEvent.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\FishHookEvent.cs",
@@ -84,7 +114,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "FishRandomMovement.cs",
               "DocumentMoniker": "C:\\Users\\anson\\Documents\\GitHub\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\FishRandomMovement.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\FishRandomMovement.cs",
