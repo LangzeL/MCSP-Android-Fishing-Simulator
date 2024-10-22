@@ -1,41 +1,81 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 using Firebase.Database;
 using Firebase.Extensions;
-using UnityEngine;
+using System.Collections.Generic;
 
 public class DatabaseManager : MonoBehaviour
 {
-    DatabaseReference reference;
+    public static DatabaseManager Instance;
 
-
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        reference = FirebaseDatabase.DefaultInstance.RootReference;
-
+        // Ensure there is only one instance of DatabaseManager
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SaveUserData(string userId, UserData userData)
     {
+        string jsonData = JsonUtility.ToJson(userData);
 
-    }
-    public void SaveData(string userId, int score)
-    {
-        reference.Child("users").Child(userId).Child("score").SetValueAsync(score);
-    }
-    public void LoadData(string userId)
-    {
-        reference.Child("users").Child(userId).Child("score").GetValueAsync().ContinueWithOnMainThread(task => {
+        FirebaseManager.Instance.databaseRef.Child("users").Child(userId).SetRawJsonValueAsync(jsonData).ContinueWithOnMainThread(task =>
+        {
             if (task.IsCompleted)
             {
-                DataSnapshot snapshot = task.Result;
-                int score = Convert.ToInt32(snapshot.Value);
-                Debug.Log("User score: " + score);
+                Debug.Log("User data saved successfully");
+            }
+            else
+            {
+                Debug.LogError($"Failed to save user data: {task.Exception}");
             }
         });
     }
 
+    public void LoadUserData(string userId, System.Action<UserData> onDataLoaded)
+    {
+        FirebaseManager.Instance.databaseRef.Child("users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                if (snapshot.Exists)
+                {
+                    string jsonData = snapshot.GetRawJsonValue();
+                    UserData userData = JsonUtility.FromJson<UserData>(jsonData);
+                    Debug.Log("User data loaded successfully");
+                    onDataLoaded?.Invoke(userData);
+                }
+                else
+                {
+                    Debug.Log("User data does not exist");
+                    onDataLoaded?.Invoke(null);
+                }
+            }
+            else
+            {
+                Debug.LogError($"Failed to load user data: {task.Exception}");
+            }
+        });
+    }
+}
+
+[System.Serializable]
+public class UserData
+{
+    public string username;
+    public int totalScore;
+    public int totalAssets;
+    public List<string> fishCaught;
+
+    public UserData()
+    {
+        fishCaught = new List<string>();
+    }
 }
