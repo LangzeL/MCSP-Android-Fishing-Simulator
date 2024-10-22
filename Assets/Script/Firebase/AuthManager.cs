@@ -32,7 +32,7 @@ public class AuthManager : MonoBehaviour
             // User is signed in
             Debug.Log("User is already logged in: " + auth.CurrentUser.Email);
             string displayName = GetDisplayName(user);
-            playerNameText.text = "Welcome£¬" + displayName;
+            playerNameText.text = "Welcome, " + displayName;
         }
         else
         {
@@ -118,7 +118,7 @@ public class AuthManager : MonoBehaviour
             UpdateUserProfile(user, email.Split('@')[0]);
 
             string displayName = GetDisplayName(user);
-            playerNameText.text = "Welcome£¬" + displayName;
+            playerNameText.text = "Welcome, " + displayName;
             HideLoginPanel();
         });
     }
@@ -149,7 +149,7 @@ public class AuthManager : MonoBehaviour
             Debug.LogFormat("User logged in successfully: {0} ({1})", user.Email, user.UserId);
 
             string displayName = GetDisplayName(user);
-            playerNameText.text = "Welcome£¬" + displayName;
+            playerNameText.text = "Welcome, " + displayName;
             HideLoginPanel();
         });
     }
