@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro; // If you're using TextMeshPro
+using TMPro;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class AuthManager : MonoBehaviour
 {
@@ -116,10 +116,11 @@ public class AuthManager : MonoBehaviour
 
             // Optionally set the user's display name
             UpdateUserProfile(user, email.Split('@')[0]);
-
+            
             string displayName = GetDisplayName(user);
             playerNameText.text = "Welcome, " + displayName;
             HideLoginPanel();
+            OnLoginSuccess(user);
         });
     }
 
@@ -151,6 +152,35 @@ public class AuthManager : MonoBehaviour
             string displayName = GetDisplayName(user);
             playerNameText.text = "Welcome, " + displayName;
             HideLoginPanel();
+            OnLoginSuccess(user);
+        });
+    }
+
+    // Call this after successful login
+    void OnLoginSuccess(FirebaseUser firebaseUser)
+    {
+        user = firebaseUser;
+        string userId = user.UserId;
+
+        // Load user data
+        DatabaseManager.Instance.LoadUserData(userId, (userData) =>
+        {
+            if (userData == null)
+            {
+                UserData newUserData = new UserData();
+                newUserData.username = GetDisplayName(user);
+                newUserData.totalScore = 0;
+                newUserData.totalAssets = 0;
+                newUserData.fishCaught = new List<string>();
+
+                DatabaseManager.Instance.SaveUserData(userId, newUserData);
+
+                GameManager.Instance.currentUserData = newUserData;
+            }
+            else
+            {
+                GameManager.Instance.currentUserData = userData;
+            }
         });
     }
 

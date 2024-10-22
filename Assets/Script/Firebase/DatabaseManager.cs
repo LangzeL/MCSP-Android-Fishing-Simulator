@@ -1,15 +1,18 @@
 using UnityEngine;
 using Firebase.Database;
 using Firebase.Extensions;
+using System;
 using System.Collections.Generic;
 
 public class DatabaseManager : MonoBehaviour
 {
     public static DatabaseManager Instance;
 
+    private DatabaseReference databaseReference;
+
     void Awake()
     {
-        // Ensure there is only one instance of DatabaseManager
+        // Ensure only one instance of DatabaseManager exists
         if (Instance == null)
         {
             Instance = this;
@@ -21,26 +24,34 @@ public class DatabaseManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        // Get the root reference location of the database
+        databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
+    }
+
+    // Save user data to the database
     public void SaveUserData(string userId, UserData userData)
     {
         string jsonData = JsonUtility.ToJson(userData);
 
-        FirebaseManager.Instance.databaseRef.Child("users").Child(userId).SetRawJsonValueAsync(jsonData).ContinueWithOnMainThread(task =>
+        databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(jsonData).ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
-                Debug.Log("User data saved successfully");
+                Debug.Log("User data saved successfully.");
             }
             else
             {
-                Debug.LogError($"Failed to save user data: {task.Exception}");
+                Debug.LogError("Failed to save user data: " + task.Exception);
             }
         });
     }
 
-    public void LoadUserData(string userId, System.Action<UserData> onDataLoaded)
+    // Load user data from the database
+    public void LoadUserData(string userId, Action<UserData> onDataLoaded)
     {
-        FirebaseManager.Instance.databaseRef.Child("users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
+        databaseReference.Child("users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
@@ -49,24 +60,25 @@ public class DatabaseManager : MonoBehaviour
                 {
                     string jsonData = snapshot.GetRawJsonValue();
                     UserData userData = JsonUtility.FromJson<UserData>(jsonData);
-                    Debug.Log("User data loaded successfully");
+                    Debug.Log("User data loaded successfully.");
                     onDataLoaded?.Invoke(userData);
                 }
                 else
                 {
-                    Debug.Log("User data does not exist");
+                    Debug.Log("User data does not exist.");
                     onDataLoaded?.Invoke(null);
                 }
             }
             else
             {
-                Debug.LogError($"Failed to load user data: {task.Exception}");
+                Debug.LogError("Failed to load user data: " + task.Exception);
             }
         });
     }
 }
 
-[System.Serializable]
+
+[Serializable]
 public class UserData
 {
     public string username;

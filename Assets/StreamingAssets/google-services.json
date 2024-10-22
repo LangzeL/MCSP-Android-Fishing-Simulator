@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1075733345226",
+    "firebase_url": "https://mcsp-android-fishing-simulator-default-rtdb.firebaseio.com",
     "project_id": "mcsp-android-fishing-simulator",
     "storage_bucket": "mcsp-android-fishing-simulator.appspot.com"
   },
