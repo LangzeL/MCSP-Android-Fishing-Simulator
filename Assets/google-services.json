@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1075733345226",
+    "project_id": "mcsp-android-fishing-simulator",
+    "storage_bucket": "mcsp-android-fishing-simulator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075733345226:android:17b13d9484cf423e859533",
+        "android_client_info": {
+          "package_name": "com.mcsp.fishingsimulator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMy8dZd8vlgOlvG2ZfYPqbiz89od0UvWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
