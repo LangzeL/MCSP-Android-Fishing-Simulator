@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{329E5C3C-DD3F-8B1E-92B2-4932E88926AD}|Assembly-CSharp.csproj|d:\\unimelb\\mobile\\mcsp-android-fishing-simulator\\assets\\script\\firebase\\authmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{329E5C3C-DD3F-8B1E-92B2-4932E88926AD}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\firebase\\authmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +14,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthManager.cs",
+              "DocumentMoniker": "D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\Firebase\\AuthManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\Firebase\\AuthManager.cs",
+              "ToolTip": "D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\Firebase\\AuthManager.cs",
+              "RelativeToolTip": "Assets\\Script\\Firebase\\AuthManager.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAADwv0EAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-23T05:35:32.291Z",
+              "EditorCaption": ""
             }
           ]
         }
