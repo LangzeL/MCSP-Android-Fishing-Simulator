@@ -2114,6 +2114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bfd6ea64108d7842a2198529cf88da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFirebaseInitialized: 0
 --- !u!4 &984251294
 Transform:
   m_ObjectHideFlags: 0
@@ -4553,6 +4554,10 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 984251294}
+  - {fileID: 1314934620}
+  - {fileID: 1712994721}
+  - {fileID: 422368965}
   - {fileID: 702413259}
   - {fileID: 1075000276}
   - {fileID: 1323550134}
@@ -4560,7 +4565,3 @@ SceneRoots:
   - {fileID: 1762098337}
   - {fileID: 1207977381}
   - {fileID: 2104704580}
-  - {fileID: 984251294}
-  - {fileID: 1314934620}
-  - {fileID: 1712994721}
-  - {fileID: 422368965}

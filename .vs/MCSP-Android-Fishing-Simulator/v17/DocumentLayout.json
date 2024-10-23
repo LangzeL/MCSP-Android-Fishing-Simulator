@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{329E5C3C-DD3F-8B1E-92B2-4932E88926AD}|Assembly-CSharp.csproj|d:\\unimelb\\mobile\\mcsp-android-fishing-simulator\\assets\\script\\firebase\\authmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{329E5C3C-DD3F-8B1E-92B2-4932E88926AD}|Assembly-CSharp.csproj|d:\\unimelb\\mobile\\mcsp-android-fishing-simulator\\assets\\script\\firebase\\databasemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{329E5C3C-DD3F-8B1E-92B2-4932E88926AD}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\firebase\\databasemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{329E5C3C-DD3F-8B1E-92B2-4932E88926AD}|Assembly-CSharp.csproj|D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\assets\\script\\firebase\\authmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{329E5C3C-DD3F-8B1E-92B2-4932E88926AD}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\firebase\\authmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{329E5C3C-DD3F-8B1E-92B2-4932E88926AD}|Assembly-CSharp.csproj|D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\assets\\script\\firebase\\firebasemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{329E5C3C-DD3F-8B1E-92B2-4932E88926AD}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\firebase\\firebasemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\Assets\\StreamingAssets\\google-services.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\StreamingAssets\\google-services.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,15 +35,52 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "DatabaseManager.cs",
+              "DocumentMoniker": "D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\Firebase\\DatabaseManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\Firebase\\DatabaseManager.cs",
+              "ToolTip": "D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\Firebase\\DatabaseManager.cs",
+              "RelativeToolTip": "Assets\\Script\\Firebase\\DatabaseManager.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAQwCgAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-23T11:30:47.258Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "google-services.json",
+              "DocumentMoniker": "D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\Assets\\StreamingAssets\\google-services.json",
+              "RelativeDocumentMoniker": "Assets\\StreamingAssets\\google-services.json",
+              "ToolTip": "D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\Assets\\StreamingAssets\\google-services.json",
+              "RelativeToolTip": "Assets\\StreamingAssets\\google-services.json",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-10-23T11:27:17.502Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FirebaseManager.cs",
+              "DocumentMoniker": "D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\Firebase\\FirebaseManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\Firebase\\FirebaseManager.cs",
+              "ToolTip": "D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\Firebase\\FirebaseManager.cs",
+              "RelativeToolTip": "Assets\\Script\\Firebase\\FirebaseManager.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAQwA8AAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-23T11:24:41.699Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "AuthManager.cs",
               "DocumentMoniker": "D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\Firebase\\AuthManager.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Firebase\\AuthManager.cs",
               "ToolTip": "D:\\unimelb\\mobile\\MCSP-Android-Fishing-Simulator\\Assets\\Script\\Firebase\\AuthManager.cs",
               "RelativeToolTip": "Assets\\Script\\Firebase\\AuthManager.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAADwv0EAAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAYwDcAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T05:35:32.291Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-23T05:35:32.291Z"
             }
           ]
         }

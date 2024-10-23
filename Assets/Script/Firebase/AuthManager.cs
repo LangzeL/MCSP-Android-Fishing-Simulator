@@ -21,24 +21,39 @@ public class AuthManager : MonoBehaviour
 
     void Start()
     {
-        // Initialize Firebase Auth
-        auth = FirebaseAuth.DefaultInstance;
-
-        // Check if the user is already logged in
-        user = auth.CurrentUser;
-        statusText.text = "";
-        if (user != null)
+        if (FirebaseManager.Instance.isFirebaseInitialized)
         {
-            // User is signed in
-            Debug.Log("User is already logged in: " + auth.CurrentUser.Email);
-            string displayName = GetDisplayName(user);
-            playerNameText.text = "Welcome, " + displayName;
+            InitializeAuth();
+
+            // Check if the user is already logged in
+            user = auth.CurrentUser;
+            statusText.text = "";
+            if (user != null)
+            {
+                // User is signed in
+                Debug.Log("User is already logged in: " + auth.CurrentUser.Email);
+                string displayName = GetDisplayName(user);
+                playerNameText.text = "Welcome, " + displayName;
+            }
+            else
+            {
+                // User is not signed in
+                playerNameText.text = "Please Login";
+            }
         }
         else
         {
-            // User is not signed in
-            playerNameText.text = "Please Login";
+            FirebaseManager.Instance.OnFirebaseInitialized += InitializeAuth;
         }
+    }
+
+    void InitializeAuth()
+    {
+        auth = FirebaseManager.Instance.auth;
+        Debug.Log("AuthManager: Firebase Auth initialized.");
+
+        // Unsubscribe from the event to prevent memory leaks
+        FirebaseManager.Instance.OnFirebaseInitialized -= InitializeAuth;
     }
 
     // Get display name from email or user profile

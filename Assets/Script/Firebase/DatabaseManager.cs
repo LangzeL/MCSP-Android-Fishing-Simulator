@@ -27,7 +27,23 @@ public class DatabaseManager : MonoBehaviour
     void Start()
     {
         // Get the root reference location of the database
-        databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
+        if (FirebaseManager.Instance.isFirebaseInitialized)
+        {
+            InitializeDatabase();
+        }
+        else
+        {
+            FirebaseManager.Instance.OnFirebaseInitialized += InitializeDatabase;
+        }
+    }
+    void InitializeDatabase()
+    {
+        databaseReference = FirebaseManager.Instance.databaseRef;
+        Debug.Log("DatabaseManager: Firebase Database initialized.");
+
+        // Unsubscribe from the event to prevent memory leaks
+        FirebaseManager.Instance.OnFirebaseInitialized -= InitializeDatabase;
+
     }
 
     // Save user data to the database

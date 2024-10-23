@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Firebase;
@@ -11,6 +12,8 @@ public class FirebaseManager : MonoBehaviour
     public static FirebaseManager Instance;
     public FirebaseAuth auth;
     public DatabaseReference databaseRef;
+    public bool isFirebaseInitialized = false;
+    public event Action OnFirebaseInitialized;
 
     void Awake()
     {
@@ -19,6 +22,7 @@ public class FirebaseManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Debug.Log("FirebaseManager: Starting Firebase initialization.");
 
             // Initialize Firebase
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
@@ -44,7 +48,10 @@ public class FirebaseManager : MonoBehaviour
         auth = FirebaseAuth.DefaultInstance;
         databaseRef = FirebaseDatabase.DefaultInstance.RootReference;
         FirebaseApp app = FirebaseApp.DefaultInstance;
-        Debug.Log("Firebase initialized successfully");
+        Debug.Log("FirebaseManager: Firebase initialized successfully.");
+
+        isFirebaseInitialized = true;
+        OnFirebaseInitialized?.Invoke();
     }
 
     // Start is called before the first frame update
