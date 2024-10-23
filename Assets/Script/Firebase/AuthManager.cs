@@ -66,7 +66,7 @@ public class AuthManager : MonoBehaviour
             // User is logged in, proceed to game scene
             Debug.Log("Proceeding to game...");
             // Load your game scene here
-            SceneManager.LoadScene("Game Scenes");
+            SceneManager.LoadScene("InGameScenes");
         }
         else
         {
