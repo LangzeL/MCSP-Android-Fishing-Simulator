@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/InGameScenes.unity
     guid: 9cbff072e1946aa479e659dda5585c95
+  - enabled: 1
+    path: Assets/Scenes/TiltTestScene.unity
+    guid: 01b9dbc3a12e9a346936d5e633919bd4
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 6ee72d15cf39dd748a13eac57397b9af,
       type: 2}
