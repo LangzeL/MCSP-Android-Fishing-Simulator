@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System;
 
 public class NetController : MonoBehaviour
 {
@@ -34,7 +35,8 @@ public class NetController : MonoBehaviour
         UpdateTiltUI();
 
         // Calculate movement based on tilt
-        float currentMoveSpeed = baseMoveSpeed + (Mathf.Abs(pitch) + Mathf.Abs(roll)) * 0.00005f;
+        float currentMoveSpeed = baseMoveSpeed + Mathf.Sqrt(Mathf.Abs(pitch) + Mathf.Abs(roll)) * 0.00005f;
+        // Debug.Log($"current roll: {roll}, current pitch: {pitch}, currentMoveSpeed: {currentMoveSpeed}");
         Vector3 movement = new Vector3(roll, pitch, 0) * currentMoveSpeed * Time.deltaTime;
 
         // Update net position
