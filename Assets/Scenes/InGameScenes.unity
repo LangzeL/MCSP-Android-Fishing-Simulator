@@ -1948,7 +1948,8 @@ MonoBehaviour:
   bubbleCount: 1000
   spawnRadius: 10
   bubbleSpeed: 5
-  bubblePrefab: {fileID: 1106275293}
+  bubblePrefab: {fileID: 1000012696881832, guid: 0d1adb20421ed664b800c8cf3d103e70,
+    type: 3}
   volumeLightColor: {r: 0.5, g: 0.7, b: 1, a: 0.5}
   lightIntensity: 4
   rayCount: 10
