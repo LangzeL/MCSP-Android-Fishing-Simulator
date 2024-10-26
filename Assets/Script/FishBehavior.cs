@@ -6,6 +6,7 @@ public class FishBehavior : MonoBehaviour
     public float directionChangeInterval = 1.0f; // 改变方向的时间间隔
     private Vector3 swimDirection;               // 游动方向
     private Camera mainCamera;                   // 主摄像机
+    private bool isHooked = false;               // 是否被钩住
 
     void Start()
     {
@@ -15,19 +16,23 @@ public class FishBehavior : MonoBehaviour
 
     void ChangeDirection()
     {
-        // 生成一个随机方向
+        if (isHooked) return; // 如果被钩住，不再改变方向
+
+        // 随机生成游动方向
         float xDirection = Random.Range(-1f, 1f);
         float yDirection = Random.Range(-1f, 1f);
         float zDirection = 0f; // 如果是2D场景，只考虑 x 和 y 方向
 
         swimDirection = new Vector3(xDirection, yDirection, zDirection).normalized;
 
-        // 更新鱼的朝向，使其面向游动的方向
+        // 更新鱼的朝向
         UpdateFishRotation();
     }
 
     void Update()
     {
+        if (isHooked) return; // 被钩住后不再移动
+
         // 移动鱼
         transform.position += swimDirection * swimSpeed * Time.deltaTime;
 
@@ -39,41 +44,57 @@ public class FishBehavior : MonoBehaviour
     {
         Vector3 viewportPosition = mainCamera.WorldToViewportPoint(transform.position);
 
-        // 如果超出屏幕边界，则反转游动方向并调整位置
         if (viewportPosition.x < 0f || viewportPosition.x > 1f)
         {
             swimDirection.x = -swimDirection.x; // 反转水平方向
-            viewportPosition.x = Mathf.Clamp(viewportPosition.x, 0.01f, 0.99f); // 确保鱼保持在边界内
-
-            // 更新鱼的朝向以反映反弹后的方向
+            viewportPosition.x = Mathf.Clamp(viewportPosition.x, 0.01f, 0.99f);
             UpdateFishRotation();
         }
 
         if (viewportPosition.y < 0f || viewportPosition.y > 1f)
         {
             swimDirection.y = -swimDirection.y; // 反转垂直方向
-            viewportPosition.y = Mathf.Clamp(viewportPosition.y, 0.01f, 0.99f); // 确保鱼保持在边界内
-
-            // 更新鱼的朝向以反映反弹后的方向
+            viewportPosition.y = Mathf.Clamp(viewportPosition.y, 0.01f, 0.99f);
             UpdateFishRotation();
         }
 
-        // 将视口坐标转回世界坐标
         transform.position = mainCamera.ViewportToWorldPoint(viewportPosition);
     }
 
     void UpdateFishRotation()
     {
-        // 让鱼的朝向面向游动方向
         if (swimDirection.x > 0)
         {
-            // 朝向右侧
-            transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+            transform.rotation = Quaternion.Euler(0f, -90f, 0f); // 朝向右侧
         }
         else if (swimDirection.x < 0)
         {
-            // 朝向左侧
-            transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+            transform.rotation = Quaternion.Euler(0f, 90f, 0f); // 朝向左侧
         }
+    }
+
+    public bool IsHooked()
+    {
+        return isHooked;
+    }
+
+    public void OnFishHooked(Vector3 hookPosition)
+    {
+        isHooked = true;
+
+        // 将鱼的位置设置为钓钩的位置
+        transform.position = hookPosition;
+
+        // 开始上鱼动画
+        Animator animator = GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.SetTrigger("OnHooked"); // 触发被钓住的动画
+        }
+
+        // 设置鱼旋转，使其有被钓起的感觉
+        transform.rotation = Quaternion.Euler(90f, -90f, 0f);
+
+        Debug.Log("Fish Hooked! Animation triggered.");
     }
 }

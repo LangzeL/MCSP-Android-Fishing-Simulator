@@ -24,7 +24,12 @@ public class CameraBackground : MonoBehaviour
 
             // 设置 RawImage 的宽高比和摄像头画面匹配
             rawImage.rectTransform.localScale = new Vector3(1, -1, 1); // 镜像翻转以获得正确方向
-            rawImage.rectTransform.sizeDelta = new Vector2(webcamTexture.width, webcamTexture.height);
+
+            // 设置 RawImage 的旋转 90 度
+            rawImage.rectTransform.rotation = Quaternion.Euler(0, 0, 90);
+
+            // 设置 RawImage 的尺寸
+            rawImage.rectTransform.sizeDelta = new Vector2(webcamTexture.height, webcamTexture.width); // 调整宽高以适应旋转
 
             // 开始播放摄像头画面
             webcamTexture.Play();

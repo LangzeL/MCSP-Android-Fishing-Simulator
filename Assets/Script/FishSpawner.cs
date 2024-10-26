@@ -46,7 +46,7 @@ public class FishSpawner : MonoBehaviour
         float randomY = Random.Range(0f, 1f); // 完整屏幕的范围 (0 到 1)
 
         // 将视口坐标转换为世界坐标
-        Vector3 viewportPosition = new Vector3(randomX, randomY, 3f); // 设置 z 值为 5，使鱼生成在摄像机更近处
+        Vector3 viewportPosition = new Vector3(randomX, randomY, 3f); // 设置 z 值为 3，使鱼生成在摄像机更近处
         Vector3 worldPosition = Camera.main.ViewportToWorldPoint(viewportPosition);
 
         return worldPosition;
