@@ -1368,7 +1368,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5751ab2a11d25644bb32f3d9fd5e5607,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3515717276090252278, guid: 5751ab2a11d25644bb32f3d9fd5e5607,
         type: 3}
@@ -2386,7 +2386,7 @@ Canvas:
   m_GameObject: {fileID: 1427947773}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -2785,7 +2785,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 919025273}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
