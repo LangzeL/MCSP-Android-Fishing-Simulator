@@ -29,9 +29,9 @@ public class FishFightController : MonoBehaviour
     private int consecutiveNoPulls = 0;
     private float progress = 0f;
 
-    private const float minValidPullAcceleration = 1f;
-    private const float maxValidPullAcceleration = 4f;
-    private const float tooHardPullAcceleration = 4f;
+    private const float minValidPullAcceleration = 0.5f;
+    private const float maxValidPullAcceleration = 3f;
+    private const float tooHardPullAcceleration = 3f;
     private const float progressIncrement = 20f;
     private const float progressDropPerWarning = 5f;
     private const int maxWarnings = 3;

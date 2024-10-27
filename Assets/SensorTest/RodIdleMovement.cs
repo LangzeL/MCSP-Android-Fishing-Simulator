@@ -19,7 +19,7 @@ public class RodIdleMovement : MonoBehaviour
 
     [Header("Smoothing Settings")]
     [Tooltip("Smoothing factor for idle movement. Higher value means more smoothing.")]
-    private float smoothingFactor = 0.3f;
+    private float smoothingFactor = 0.1f;
 
     private Vector3 smoothPosition = Vector3.zero;  
     private Quaternion smoothRotation = Quaternion.identity;
@@ -97,7 +97,7 @@ public class RodIdleMovement : MonoBehaviour
         {
             float tiltY = accel.y;
 
-            float rotX = initialRotation.eulerAngles.x + tiltY * rotationSensitivityZ * 10;
+            float rotX = initialRotation.eulerAngles.x - tiltY * rotationSensitivityZ * 10;
             Quaternion targetRotation = Quaternion.Euler(rotX, initialRotation.eulerAngles.y, initialRotation.eulerAngles.z);
 
             smoothRotation = Quaternion.Slerp(smoothRotation, targetRotation, smoothingFactor);
