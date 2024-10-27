@@ -45,7 +45,7 @@ public class FishFightController : MonoBehaviour
         // Initialize UI references
         fishingPanel = GameObject.Find("FishingPanel");
         statusText = GameObject.Find("StatusText")?.GetComponent<Text>();
-        progressBar = GameObject.Find("ProgressBar")?.GetComponent<Slider>();
+        progressBar = GameObject.Find("Slider")?.GetComponent<Slider>();
         progressText = GameObject.Find("ProgressText")?.GetComponent<Text>();
 
         // Hide all UI elements immediately
@@ -273,7 +273,7 @@ public class FishFightController : MonoBehaviour
         // Re-find UI elements if needed
         if (fishingPanel == null) fishingPanel = GameObject.Find("FishingPanel");
         if (statusText == null) statusText = GameObject.Find("StatusText")?.GetComponent<Text>();
-        if (progressBar == null) progressBar = GameObject.Find("ProgressBar")?.GetComponent<Slider>();
+        if (progressBar == null) progressBar = GameObject.Find("Slider")?.GetComponent<Slider>();
         if (progressText == null) progressText = GameObject.Find("ProgressText")?.GetComponent<Text>();
 
         // Show and reset UI elements
@@ -526,7 +526,7 @@ public class FishFightController : MonoBehaviour
         // Re-find UI elements in case they were destroyed/recreated
         if (fishingPanel == null) fishingPanel = GameObject.Find("FishingPanel");
         if (statusText == null) statusText = GameObject.Find("StatusText")?.GetComponent<Text>();
-        if (progressBar == null) progressBar = GameObject.Find("ProgressBar")?.GetComponent<Slider>();
+        if (progressBar == null) progressBar = GameObject.Find("Slider")?.GetComponent<Slider>();
         if (progressText == null) progressText = GameObject.Find("ProgressText")?.GetComponent<Text>();
 
         // Hide all UI elements
