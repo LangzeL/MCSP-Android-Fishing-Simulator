@@ -886,6 +886,21 @@ MonoBehaviour:
     totalScore: 0
     totalAssets: 0
     fishCaught: []
+
+  allFishData:
+  - {fileID: 7358051582216332368, guid: 41c36f617b2c65548870e96a34b5aa06, type: 3}
+  - {fileID: -7267600693679202450, guid: f594b66c448f23842a8e56673218e23d, type: 3}
+  - {fileID: 3911027823948829497, guid: 21712b1e5c186bc4aa1fd1937c89c704, type: 3}
+  - {fileID: -6211976982791608603, guid: c677800511fb54644b7b76ef1718c4bd, type: 3}
+  - {fileID: -4364938700418165362, guid: 2ee658e1fbbfd5642a5ec8bb1ce3f01d, type: 3}
+  - {fileID: 1215530814742301763, guid: 39cb2a49eacc50f468757d475eaaab93, type: 3}
+  - {fileID: -5290944988831327213, guid: ef8384a114e6d984db4b4b7019b879b7, type: 3}
+  - {fileID: -7388956318798373773, guid: ad84b3039e0f4584ba0a4727ece33403, type: 3}
+  - {fileID: -4052081678231606332, guid: a1a85f3a75b6dde46affde6b3aa1259c, type: 3}
+  - {fileID: -2587342974671311360, guid: 6fa76ceffc170a3499157d4563d7ef2b, type: 3}
+  - {fileID: 6181028704933232502, guid: 7a4e0bbcabbbf6d4da407919bbb81259, type: 3}
+  - {fileID: -7226942539241290729, guid: b75d8c013aee44547b57c8113a8cc171, type: 3}
+
 --- !u!4 &422368965
 Transform:
   m_ObjectHideFlags: 0
