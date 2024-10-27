@@ -21,10 +21,6 @@ public class FishFightController : MonoBehaviour
     [Tooltip("UI Text to display progress percentage.")]
     public Text progressText;
 
-    // [Tooltip("Button to reset the game and reload the scene.")]
-    // public Button resetButton; // New button reference
-
-    // Internal variables
     private bool isFishing = false;
     private bool isFishBiting = false;
     private float fishBiteTime;
@@ -33,10 +29,9 @@ public class FishFightController : MonoBehaviour
     private int consecutiveNoPulls = 0;
     private float progress = 0f;
 
-    // Constants
-    private const float minValidPullAcceleration = 1f;
-    private const float maxValidPullAcceleration = 4f;
-    private const float tooHardPullAcceleration = 4f;
+    private const float minValidPullAcceleration = 0.5f;
+    private const float maxValidPullAcceleration = 3f;
+    private const float tooHardPullAcceleration = 3f;
     private const float progressIncrement = 20f;
     private const float progressDropPerWarning = 5f;
     private const int maxWarnings = 3;
@@ -44,33 +39,26 @@ public class FishFightController : MonoBehaviour
     private const float noPullInterval = 1f;
     private const float tooHardPullCooldownDuration = 1f;
     private const float progressUpdateInterval = 0.5f;
-    
-    // private const string inGameSceneName = "InGameScene"; // Scene to reset to
-    private const string targetSceneName = "TiltTestScene"; // Target scene name
+    private const string targetSceneName = "TiltTestScene";
     private const float successMessageDuration = 3f;
 
-    // Pull gesture detection variables
     private float gestureStartTime = 0f;
     private PullGestureState pullState = PullGestureState.None;
     private float lastProgressUpdateTime = 0f;
 
     private enum PullGestureState { None, FirstPhase }
 
-    // Cooldown flag
     private bool canDetectTooHardPull = true;
 
     void Start()
     {
-        // // Set up the reset button to call the ResetGame method when clicked
-        // if (resetButton != null)
-        // {
-        //     resetButton.onClick.AddListener(ResetGame);
-        // }
+        // Hide the UI elements at the start
+        if (fishingPanel != null) fishingPanel.SetActive(false);
+        if (statusText != null) statusText.gameObject.SetActive(false);
+        if (progressBar != null) progressBar.gameObject.SetActive(false);
+        if (progressText != null) progressText.gameObject.SetActive(false);
     }
 
-    /// <summary>
-    /// Starts the fish bite process after casting.
-    /// </summary>
     public void StartFishBite()
     {
         fishBiteTime = Time.time + fishBiteDelay;
@@ -92,16 +80,14 @@ public class FishFightController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Initiates the fishing stage after the fish bites.
-    /// </summary>
     void StartFishingStage()
     {
         isFishing = true;
 
+        // Hide the fishing panel instead of destroying it
         if (fishingPanel != null)
         {
-            Destroy(fishingPanel);
+            fishingPanel.SetActive(false);
         }
         else
         {
@@ -117,6 +103,12 @@ public class FishFightController : MonoBehaviour
         consecutiveNoPulls = 0;
         progress = 0f;
         lastProgressUpdateTime = Time.time;
+
+        // Show the UI elements when fishing starts
+        if (statusText != null) statusText.gameObject.SetActive(true);
+        if (progressBar != null) progressBar.gameObject.SetActive(true);
+        if (progressText != null) progressText.gameObject.SetActive(true);
+
         UpdateProgressUI();
     }
 
@@ -126,9 +118,6 @@ public class FishFightController : MonoBehaviour
         Debug.Log("Vibration should have started (second time)");
     }
 
-    /// <summary>
-    /// Updates the fishing logic, handling pull detection and progress tracking.
-    /// </summary>
     void UpdateFishing()
     {
         DetectPullGesture();
@@ -152,7 +141,6 @@ public class FishFightController : MonoBehaviour
                 ShowStatus($"Pull! ({consecutiveNoPulls}/{maxWarnings})");
                 Debug.Log($"No pull detected. Warning {consecutiveNoPulls}/{maxWarnings}");
                 Vibration.Vibrate(300);
-                Debug.Log("Vibration triggered for no pull warning.");
                 progress -= progressDropPerWarning;
                 if (progress < 0f) progress = 0f;
                 UpdateProgressUI();
@@ -160,9 +148,6 @@ public class FishFightController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Detects the pulling gesture during the fishing stage.
-    /// </summary>
     void DetectPullGesture()
     {
         Vector3 accel = Input.acceleration;
@@ -216,7 +201,6 @@ public class FishFightController : MonoBehaviour
                 if (progress < 0f) progress = 0f;
                 UpdateProgressUI();
                 Vibration.Vibrate(300);
-                Debug.Log("Vibration triggered due to too hard pull.");
                 ShowStatus($"Too Hard! ({consecutiveTooHardPulls}/{maxWarnings})");
 
                 if (consecutiveTooHardPulls >= maxWarnings)
@@ -232,33 +216,16 @@ public class FishFightController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Switches to the TiltTestScene after a delay.
-    /// </summary>
     void SwitchToTiltTestScene()
     {
         SceneManager.LoadScene(targetSceneName);
     }
 
-    // /// <summary>
-    // /// Reloads the InGameScene, resetting the game.
-    // /// </summary>
-    // void ResetGame()
-    // {
-    //     SceneManager.LoadScene(inGameSceneName);
-    // }
-
-    /// <summary>
-    /// Resets the cooldown flag allowing too-hard pulls to be detected again.
-    /// </summary>
     void ResetTooHardPullCooldown()
     {
         canDetectTooHardPull = true;
     }
 
-    /// <summary>
-    /// Updates the progress UI elements.
-    /// </summary>
     void UpdateProgressUI()
     {
         if (progressBar != null)
@@ -272,9 +239,6 @@ public class FishFightController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Displays a status message on the UI.
-    /// </summary>
     void ShowStatus(string message)
     {
         if (statusText != null)
