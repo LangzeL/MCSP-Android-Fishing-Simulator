@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI; // Ensure this namespace is included for UI interactions
 
 /// <summary>
 /// Controls the idle movement of the fishing rod based on device tilt.
@@ -19,20 +19,17 @@ public class RodIdleMovement : MonoBehaviour
 
     [Header("Smoothing Settings")]
     [Tooltip("Smoothing factor for idle movement. Higher value means more smoothing.")]
-    private float smoothingFactor = 0.1f;
+    private float smoothingFactor = 0.3f; // Adjust this factor for desired smoothing effect
 
-    private Vector3 smoothPosition = Vector3.zero;  
-    private Quaternion smoothRotation = Quaternion.identity;
+    private Vector3 smoothPosition = Vector3.zero;  // Stores smoothed position value
+    private Quaternion smoothRotation = Quaternion.identity;  // Stores smoothed rotation value
 
     [Header("Fishing Settings")]
     [Tooltip("Reference to the Bait GameObject.")]
-    public GameObject bait;
+    public GameObject bait; // Assign the "Bait" GameObject in the Inspector
 
     [Tooltip("Prefab for the 'Fishing...' UI window.")]
-    public GameObject fishingUIWindowPrefab;
-
-    [Tooltip("Reference to the rotation center GameObject.")]
-    public GameObject rodRotationCentre;
+    public GameObject fishingUIWindowPrefab; // Assign the "Fishing..." UI prefab in the Inspector
 
     private Vector3 initialPosition;
     private Quaternion initialRotation;
@@ -41,23 +38,21 @@ public class RodIdleMovement : MonoBehaviour
 
     void Start()
     {
-        if (rodRotationCentre == null)
-        {
-            Debug.LogError("RodRotationCentre GameObject is not assigned.");
-            return;
-        }
+        // Store the initial position and rotation of the rod
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
 
-        initialPosition = rodRotationCentre.transform.position;
-        initialRotation = rodRotationCentre.transform.rotation;
-
+        // Initialize smoothing values with initial position and rotation
         smoothPosition = initialPosition;
         smoothRotation = initialRotation;
 
+        // Ensure the bait is assigned
         if (bait == null)
         {
-            Debug.LogError("Bait GameObject is not assigned.");
+            Debug.LogError("Bait GameObject is not assigned in the RodIdleMovement script.");
         }
 
+        // Subscribe to the fishing start event
         FishingGestureDetector gestureDetector = FindObjectOfType<FishingGestureDetector>();
         if (gestureDetector != null)
         {
@@ -65,71 +60,93 @@ public class RodIdleMovement : MonoBehaviour
         }
         else
         {
-            Debug.LogError("FishingGestureDetector not found in the scene.");
+            Debug.LogError("FishingGestureDetector not found in the scene. Please ensure it's added and active.");
         }
     }
 
     void Update()
     {
+        // Read accelerometer data
         Vector3 accel = Input.acceleration;
 
         if (!isFishingStarted)
         {
-            float tiltX = accel.x;
-            float tiltY = accel.y;
+            // ----- Pre-Fishing Idle Movement -----
 
+            // Extract tilt values
+            float tiltX = accel.x; // Left/Right tilt
+            float tiltY = accel.y; // Up/Down tilt
+
+            // Calculate new position based on left/right tilt
             float posX = initialPosition.x + tiltX * positionSensitivity * 5;
-            float posY = initialPosition.y + tiltX * positionSensitivity * 2;
-            Vector3 targetPosition = new Vector3(posX, posY, initialPosition.z);
+            float posY = initialPosition.y + tiltX * positionSensitivity * 2; // You can adjust this if Y movement should differ
+            Vector3 targetPosition = new Vector3(posX, posY, initialPosition.z); // Keeping Z position constant
 
-            float rotX = initialRotation.eulerAngles.x + tiltY * rotationSensitivityZ * 10;
-            float rotY = initialRotation.eulerAngles.y + tiltX * rotationSensitivityXY * 2;
-            float rotZ = initialRotation.eulerAngles.z + tiltX * rotationSensitivityXY * 2;
+            // Calculate new rotation based on left/right and up/down tilt
+            float rotX = initialRotation.eulerAngles.x + tiltX * rotationSensitivityXY * 2; // Rotation around X-axis
+            float rotY = initialRotation.eulerAngles.y + tiltX * rotationSensitivityXY * 2; // Rotation around Y-axis
+            float rotZ = initialRotation.eulerAngles.z + tiltY * rotationSensitivityZ * 10;  // Rotation around Z-axis
             Quaternion targetRotation = Quaternion.Euler(rotX, rotY, rotZ);
 
+            // Apply smoothing
             smoothPosition = Vector3.Lerp(smoothPosition, targetPosition, smoothingFactor);
             smoothRotation = Quaternion.Slerp(smoothRotation, targetRotation, smoothingFactor);
 
-            rodRotationCentre.transform.position = smoothPosition;
-            rodRotationCentre.transform.rotation = smoothRotation;
+            // Apply the smoothed position and rotation to the rod
+            transform.position = smoothPosition;
+            transform.rotation = smoothRotation;
         }
         else
         {
-            float tiltY = accel.y;
+            // ----- Post-Fishing Rotation -----
 
-            float rotX = initialRotation.eulerAngles.x - tiltY * rotationSensitivityZ * 10;
-            Quaternion targetRotation = Quaternion.Euler(rotX, initialRotation.eulerAngles.y, initialRotation.eulerAngles.z);
+            // Continue to adjust rotation Z based on up/down tilt
+            float tiltY = accel.y; // Up/Down tilt
 
+            // Calculate new rotation around Z-axis
+            float rotZ = initialRotation.eulerAngles.z + tiltY * rotationSensitivityZ * 10;
+            Quaternion targetRotation = Quaternion.Euler(initialRotation.eulerAngles.x, initialRotation.eulerAngles.y, rotZ);
+
+            // Apply smoothing to the rotation only, as position is fixed
             smoothRotation = Quaternion.Slerp(smoothRotation, targetRotation, smoothingFactor);
 
-            rodRotationCentre.transform.position = initialPosition;
-            rodRotationCentre.transform.rotation = smoothRotation;
+            // Maintain initial position and apply smoothed rotation
+            transform.position = initialPosition;
+            transform.rotation = smoothRotation;
         }
     }
 
+    /// <summary>
+    /// Initiates the fishing process by detaching the bait and displaying the fishing UI.
+    /// </summary>
     void StartFishing()
     {
         if (isFishingStarted)
-            return;
+            return; // Prevent multiple fishing starts
 
         isFishingStarted = true;
-        Debug.Log("Fishing has started.");
+        Debug.Log("Fishing has started in RodIdleMovement.");
 
+        // Detach the bait from the rod
         if (bait != null)
         {
+            // Remove parent to detach
             bait.transform.parent = null;
 
+            // Add Rigidbody if not present for physics interaction
             Rigidbody baitRb = bait.GetComponent<Rigidbody>();
             if (baitRb == null)
             {
                 baitRb = bait.AddComponent<Rigidbody>();
             }
 
-            baitRb.isKinematic = false;
-            baitRb.useGravity = true;
+            // Configure Rigidbody
+            baitRb.isKinematic = false; // Enable physics
+            baitRb.useGravity = true;    // Allow gravity to affect the bait
 
-            Vector3 launchDirection = rodRotationCentre.transform.forward;
-            float launchForce = 10f;
+            // Apply a forward force to simulate throwing the bait
+            Vector3 launchDirection = transform.forward; // Adjust based on rod's orientation
+            float launchForce = 10f; // Adjust force as needed
             baitRb.AddForce(launchDirection * launchForce, ForceMode.Impulse);
 
             Debug.Log("Bait has been detached and launched.");
@@ -139,11 +156,14 @@ public class RodIdleMovement : MonoBehaviour
             Debug.LogError("Bait GameObject is not assigned.");
         }
 
+        // Display the "Fishing..." UI window
         if (fishingUIWindowPrefab != null)
         {
+            // Find or create a Canvas
             Canvas mainCanvas = FindObjectOfType<Canvas>();
             if (mainCanvas == null)
             {
+                // Create a new Canvas if none exists
                 GameObject canvasGO = new GameObject("MainCanvas");
                 mainCanvas = canvasGO.AddComponent<Canvas>();
                 mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
@@ -151,30 +171,33 @@ public class RodIdleMovement : MonoBehaviour
                 canvasGO.AddComponent<GraphicRaycaster>();
             }
 
+            // Instantiate the fishing UI window as a child of the Canvas
             GameObject fishingUI = Instantiate(fishingUIWindowPrefab, mainCanvas.transform);
-            fishingUI.transform.SetAsLastSibling();
+            fishingUI.transform.SetAsLastSibling(); // Ensure it appears on top
 
+            // Start the fish bite process
             FishFightController fishFightController = FindObjectOfType<FishFightController>();
             if (fishFightController != null)
             {
-                fishFightController.fishingPanel = fishingUI;
+                fishFightController.fishingPanel = fishingUI; // Assign the panel so it can be removed later
                 fishFightController.StartFishBite();
             }
             else
             {
-                Debug.LogError("FishFightController not found.");
+                Debug.LogError("FishFightController not found in the scene.");
             }
 
             Debug.Log("'Fishing...' UI window displayed.");
         }
         else
         {
-            Debug.LogError("FishingUIWindowPrefab is not assigned.");
+            Debug.LogError("FishingUIWindowPrefab is not assigned in the RodIdleMovement script.");
         }
     }
 
     void OnDestroy()
     {
+        // Unsubscribe from the fishing start event to prevent memory leaks
         FishingGestureDetector gestureDetector = FindObjectOfType<FishingGestureDetector>();
         if (gestureDetector != null)
         {
