@@ -106,10 +106,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6216007438678371913}
-    - targetCorrespondingSourceObject: {fileID: 1904540131137364338, guid: f67687c8934df35469359ac3fd4ae078,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: -3213445468752230724}
   m_SourcePrefab: {fileID: 100100000, guid: f67687c8934df35469359ac3fd4ae078, type: 3}
 --- !u!1 &3757171954165426372 stripped
 GameObject:
@@ -131,19 +127,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swimSpeed: 0.4
   directionChangeInterval: 2
---- !u!114 &-3213445468752230724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3757171954165426372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93b311a2af531ac498a7a3a9ab8e974a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fishID: 24
-  fishName: 
-  score: 0
-  image: {fileID: 0}

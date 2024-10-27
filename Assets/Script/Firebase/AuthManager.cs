@@ -80,9 +80,6 @@ public class AuthManager : MonoBehaviour
         {
             // User is logged in, proceed to game scene
             Debug.Log("Proceeding to game...");
-
-            GameManager.Instance.LoadAllFishData();
-
             // Load your game scene here
             SceneManager.LoadScene("InGameScenes");
         }
@@ -189,6 +186,7 @@ public class AuthManager : MonoBehaviour
                 newUserData.username = GetDisplayName(user);
                 newUserData.totalScore = 0;
                 newUserData.totalAssets = 0;
+                newUserData.fishCaught = new List<string>();
 
                 DatabaseManager.Instance.SaveUserData(userId, newUserData);
 
