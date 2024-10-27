@@ -5,23 +5,24 @@ using System.Collections;
 
 public class NetController : MonoBehaviour
 {
-    private float baseMoveSpeed = 0.5f; // Base movement speed
+    private float baseMoveSpeed = 0.5f;
     public Text pitchText;
     public Text rollText;
     public GameObject fish;
-    public GameObject winWindowPrefab; // Prefab for the "You Win" panel
-    public GameObject bubbleObject;    // Reference to the existing bubble GameObject in the scene
+    public GameObject winWindowPrefab;
+    public GameObject bubbleObject;
     private GameObject winWindowInstance;
 
     private Vector3 netPosition;
     private float pitch;
     private float roll;
 
-    private float captureDelay = 0.5f; // Time in seconds required to capture
+    private float captureDelay = 0.5f;
     private float captureTimer = 0f;
     private bool isCapturing = false;
+    private bool isFishCaptured = false;
 
-    void Start()
+    private void Start()
     {
         netPosition = transform.position;
 
@@ -35,25 +36,71 @@ public class NetController : MonoBehaviour
         {
             bubbleObject.SetActive(false);
         }
+
+        StartCoroutine(EnsureFishReference());
     }
 
+    private IEnumerator EnsureFishReference()
+    {
+        float timeout = 5f;
+        float startTime = Time.time;
+
+        while (fish == null && Time.time - startTime < timeout)
+        {
+            // ONLY try to get from FishFightController, remove the scene search
+            FishFightController controller = FishFightController.Instance;
+            if (controller != null && controller.GetHookedFish() != null)
+            {
+                fish = controller.GetHookedFish().gameObject;
+                Debug.Log($"Found hooked fish from FishFightController: {fish.name}");
+
+                // Ensure fish has proper collider
+                BoxCollider2D fishCollider = fish.GetComponent<BoxCollider2D>();
+                if (fishCollider == null)
+                {
+                    fishCollider = fish.AddComponent<BoxCollider2D>();
+                    fishCollider.size = new Vector2(1f, 1f);
+                }
+                fishCollider.enabled = true;
+
+                // Ensure this NetController's collider is set up
+                CircleCollider2D netCollider = GetComponent<CircleCollider2D>();
+                if (netCollider == null)
+                {
+                    netCollider = gameObject.AddComponent<CircleCollider2D>();
+                    netCollider.radius = 1f;
+                }
+                netCollider.enabled = true;
+
+                break;
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        if (fish == null)
+        {
+            Debug.LogError("Failed to find hooked fish reference from FishFightController!");
+        }
+        else
+        {
+            Debug.Log($"Successfully setup hooked fish reference: {fish.name}, IsHooked: {fish.GetComponent<FishBehavior>()?.IsHooked()}");
+        }
+    }
     void Update()
     {
-        // Get tilt data using the new Input System
+        if (isFishCaptured) return;
+
         pitch = Input.acceleration.y * 90f;
         roll = Input.acceleration.x * 90f;
 
-        // Update UI
         UpdateTiltUI();
 
-        // Calculate movement based on tilt
         float currentMoveSpeed = baseMoveSpeed + Mathf.Sqrt(Mathf.Abs(pitch) + Mathf.Abs(roll)) * 0.00005f;
         Vector3 movement = new Vector3(roll, pitch, 0) * currentMoveSpeed * Time.deltaTime;
 
-        // Update net position
         netPosition += movement;
 
-        // Clamp the net position within screen bounds
         float screenHalfWidth = Camera.main.orthographicSize * Camera.main.aspect;
         float screenHalfHeight = Camera.main.orthographicSize;
 
@@ -62,7 +109,6 @@ public class NetController : MonoBehaviour
 
         transform.position = netPosition;
 
-        // Check for collision (net covering the fish)
         CheckCapture();
     }
 
@@ -89,16 +135,15 @@ public class NetController : MonoBehaviour
             pitchText.text = $"Pitch: {pitch:F1}° {pitchDirection}";
             rollText.text = $"Roll: {roll:F1}° {rollDirection}";
         }
-        else
-        {
-            Debug.LogError("PitchText or RollText is not assigned in the Inspector.");
-        }
     }
 
     void CheckCapture()
     {
-        if (fish == null) return;
-
+        if (fish == null || fish.CompareTag("HookedFish") == false)
+        {
+            Debug.LogWarning("No valid hooked fish reference for capture check");
+            return;
+        }
         Collider2D netCollider = GetComponent<Collider2D>();
         Collider2D fishCollider = fish.GetComponent<Collider2D>();
 
@@ -170,48 +215,38 @@ public class NetController : MonoBehaviour
 
     void CaptureFish()
     {
+        if (isFishCaptured) return;
+        isFishCaptured = true;
+
         Canvas mainCanvas = FindObjectOfType<Canvas>();
 
         if (winWindowPrefab != null && mainCanvas != null)
         {
-            // Instantiate the "You Win" panel and make it visible
             winWindowInstance = Instantiate(winWindowPrefab, mainCanvas.transform);
-            winWindowInstance.SetActive(true); // Ensure the panel is shown
+            winWindowInstance.SetActive(true);
             winWindowInstance.transform.SetAsLastSibling();
 
-            // Start the text color-changing coroutine
             Text winText = winWindowInstance.transform.Find("WinText").GetComponent<Text>();
             if (winText != null)
             {
                 StartCoroutine(ChangeTextColor(winText));
             }
 
-            // Enable the bubble object
             if (bubbleObject != null)
             {
                 bubbleObject.SetActive(true);
                 Debug.Log("Bubble effect revealed.");
             }
-
-            Debug.Log("You Win panel instantiated successfully.");
-        }
-        else
-        {
-            Debug.LogError("WinWindowPrefab or Canvas not found in the scene.");
         }
 
         this.enabled = false;
 
         if (fish != null)
         {
-            FishController fishController = fish.GetComponent<FishController>();
-            if (fishController != null)
+            FishBehavior fishBehavior = fish.GetComponent<FishBehavior>();
+            if (fishBehavior != null)
             {
-                fishController.enabled = false;
-            }
-            else
-            {
-                Debug.LogWarning("FishController component not found on Fish GameObject.");
+                fishBehavior.OnCaptured();
             }
         }
     }
@@ -224,6 +259,30 @@ public class NetController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             winText.color = Color.blue;
             yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (winWindowInstance != null)
+        {
+            Destroy(winWindowInstance);
+        }
+
+        // Stop all coroutines when destroyed
+        StopAllCoroutines();
+    }
+
+    // Public method to clear win window when resetting
+    public void ClearWinWindow()
+    {
+        if (winWindowInstance != null)
+        {
+            Destroy(winWindowInstance);
+        }
+        if (bubbleObject != null)
+        {
+            bubbleObject.SetActive(false);
         }
     }
 }
