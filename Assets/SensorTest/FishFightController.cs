@@ -2,112 +2,33 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
 public class FishFightController : MonoBehaviour
 {
-    private static FishFightController instance;
-    public static FishFightController Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<FishFightController>();
-                if (instance == null)
-                {
-                    GameObject go = new GameObject("FishFightController");
-                    instance = go.AddComponent<FishFightController>();
-                    DontDestroyOnLoad(go);
-                }
-            }
-            return instance;
-        }
-    }
-    void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            InitializeUI(); // Add this line
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-
-    }
-
-    void InitializeUI()
-    {
-        Debug.Log("Initializing UI elements");
-
-        // Initialize UI references
-        fishingPanel = GameObject.Find("FishingPanel");
-        statusText = GameObject.Find("StatusText")?.GetComponent<Text>();
-        progressBar = GameObject.Find("ProgressBar")?.GetComponent<Slider>();
-        progressText = GameObject.Find("ProgressText")?.GetComponent<Text>();
-
-        // Hide all UI elements immediately
-        HideAllUI();
-    }
-
-    private void HideAllUI()
-    {
-        Debug.Log("Hiding all UI elements");
-
-        // Hide Fishing Panel
-        if (fishingPanel != null)
-        {
-            fishingPanel.SetActive(false);
-        }
-
-        // Hide Status Text
-        if (statusText != null && statusText.gameObject != null)
-        {
-            statusText.gameObject.SetActive(false);
-            statusText.text = "";
-        }
-
-        // Hide Progress Bar
-        if (progressBar != null && progressBar.gameObject != null)
-        {
-            progressBar.gameObject.SetActive(false);
-            progressBar.value = 0f;
-        }
-
-        // Hide Progress Text
-        if (progressText != null && progressText.gameObject != null)
-        {
-            progressText.gameObject.SetActive(false);
-            progressText.text = "Progress: 0%";
-        }
-    }
-    [Header("Hook Detection Settings")]
-    public float hookDistance = 2.0f;
-    public float hookTime = 0.5f;
+    [Header("Fishing Settings")]
+    [Tooltip("Time in seconds before the fish bites after casting.")]
+    public float fishBiteDelay = 5f;
 
     [Header("UI Elements")]
+    [Tooltip("Reference to the 'Fishing...' UI panel.")]
     public GameObject fishingPanel;
+
+    [Tooltip("UI Text to display status messages.")]
     public Text statusText;
+
+    [Tooltip("UI Slider to represent progress.")]
     public Slider progressBar;
+
+    [Tooltip("UI Text to display progress percentage.")]
     public Text progressText;
 
-    // Bait and fish state
-    private Transform bait;
-    private bool isBaitReady = false;
-    private FishBehavior hookedFish = null;
-    private float timeInHookRange = 0.0f;
-    private bool isWaitingForHook = false;
-
-    // Fight state
     private bool isFishing = false;
+    private bool isFishBiting = false;
+    private float fishBiteTime;
     private float lastPullTime;
     private int consecutiveTooHardPulls = 0;
     private int consecutiveNoPulls = 0;
     private float progress = 0f;
 
-    // Fighting constants
     private const float minValidPullAcceleration = 0.5f;
     private const float maxValidPullAcceleration = 3f;
     private const float tooHardPullAcceleration = 3f;
@@ -121,148 +42,41 @@ public class FishFightController : MonoBehaviour
     private const string targetSceneName = "TiltTestScene";
     private const float successMessageDuration = 3f;
 
-    // Gesture detection
     private float gestureStartTime = 0f;
     private PullGestureState pullState = PullGestureState.None;
     private float lastProgressUpdateTime = 0f;
-    private bool canDetectTooHardPull = true;
 
     private enum PullGestureState { None, FirstPhase }
 
+    private bool canDetectTooHardPull = true;
+
     void Start()
     {
-        // This will print the scene name if the object is in a scene, or "DontDestroyOnLoad" if it's in the persistent scene
-        Debug.Log($"FishFightController is in scene: {gameObject.scene.name}");
-
-        // Print the hierarchy path to help debug parent-child relationships
-        Transform current = transform;
-        string path = current.name;
-        while (current.parent != null)
-        {
-            current = current.parent;
-            path = current.name + "/" + path;
-        }
-        Debug.Log($"FishFightController hierarchy path: {path}");
-        // Hide UI elements initially
+        // Hide the UI elements at the start
         if (fishingPanel != null) fishingPanel.SetActive(false);
         if (statusText != null) statusText.gameObject.SetActive(false);
         if (progressBar != null) progressBar.gameObject.SetActive(false);
         if (progressText != null) progressText.gameObject.SetActive(false);
     }
 
+    public void StartFishBite()
+    {
+        fishBiteTime = Time.time + fishBiteDelay;
+        isFishBiting = true;
+        Debug.Log($"Fish will bite in {fishBiteDelay} seconds.");
+    }
+
     void Update()
     {
-        if (!isBaitReady) return;
-
-        if (isWaitingForHook)
+        if (isFishBiting && Time.time >= fishBiteTime)
         {
-            CheckForFishHook();
+            isFishBiting = false;
+            StartFishingStage();
         }
-        else if (isFishing)
+
+        if (isFishing)
         {
             UpdateFishing();
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (!isWaitingForHook || hookedFish != null) return;
-
-        FishBehavior fish = other.GetComponent<FishBehavior>();
-        if (fish != null && !fish.IsHooked())
-        {
-            timeInHookRange += Time.deltaTime;
-            Debug.Log($"Fish in trigger range for {timeInHookRange} seconds");
-
-            if (timeInHookRange >= hookTime)
-            {
-                HookFish(fish);
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!isWaitingForHook || hookedFish != null) return;
-
-        FishBehavior fish = other.GetComponent<FishBehavior>();
-        if (fish != null)
-        {
-            timeInHookRange = 0f;
-            Debug.Log("Fish left trigger range - resetting timer");
-        }
-    }
-
-    void CheckForFishHook()
-    {
-        if (hookedFish != null || bait == null) return;
-
-        FishBehavior[] allFish = FindObjectsOfType<FishBehavior>();
-        bool fishInRange = false;
-
-        foreach (FishBehavior fish in allFish)
-        {
-            if (fish.IsHooked()) continue;
-
-            float distanceToBait = Vector3.Distance(fish.transform.position, bait.position);
-
-            if (distanceToBait <= hookDistance)
-            {
-                fishInRange = true;
-                timeInHookRange += Time.deltaTime;
-                Debug.Log($"Fish in range for {timeInHookRange} seconds");
-
-                if (timeInHookRange >= hookTime)
-                {
-                    HookFish(fish);
-                    break;
-                }
-            }
-        }
-
-        if (!fishInRange)
-        {
-            timeInHookRange = 0f;
-        }
-    }
-
-    void HookFish(FishBehavior fish)
-    {
-        if (!isWaitingForHook) return;
-
-        hookedFish = fish;
-        hookedFish.gameObject.tag = "HookedFish";
-        hookedFish.OnFishHooked(bait.position);
-        RemoveOtherFish(hookedFish);
-        isWaitingForHook = false;
-
-        // Start fishing stage (which will show UI)
-        StartFishingStage();
-        Debug.Log("Fish hooked! Starting fight sequence.");
-    }
-
-    // Make sure OnBaitReady keeps UI hidden
-    public void OnBaitReady(Transform baitTransform)
-    {
-        bait = baitTransform;
-        isBaitReady = true;
-        isWaitingForHook = true;
-        timeInHookRange = 0f;
-
-        // Ensure UI stays hidden
-        HideAllUI();
-
-        Debug.Log("Bait is ready - starting to monitor for fish.");
-    }
-    void RemoveOtherFish(FishBehavior hookedFish)
-    {
-        FishBehavior[] allFish = FindObjectsOfType<FishBehavior>();
-        foreach (FishBehavior fish in allFish)
-        {
-            if (fish != hookedFish)
-            {
-                Destroy(fish.gameObject);
-            }
         }
     }
 
@@ -270,37 +84,16 @@ public class FishFightController : MonoBehaviour
     {
         isFishing = true;
 
-        // Re-find UI elements if needed
-        if (fishingPanel == null) fishingPanel = GameObject.Find("FishingPanel");
-        if (statusText == null) statusText = GameObject.Find("StatusText")?.GetComponent<Text>();
-        if (progressBar == null) progressBar = GameObject.Find("ProgressBar")?.GetComponent<Slider>();
-        if (progressText == null) progressText = GameObject.Find("ProgressText")?.GetComponent<Text>();
-
-        // Show and reset UI elements
+        // Hide the fishing panel instead of destroying it
         if (fishingPanel != null)
         {
-            fishingPanel.SetActive(true);
+            fishingPanel.SetActive(false);
         }
-
-        if (statusText != null)
+        else
         {
-            statusText.gameObject.SetActive(true);
-            statusText.text = "Start fishing!";
+            Debug.LogError("FishingPanel is not assigned in FishFightController.");
         }
 
-        if (progressBar != null)
-        {
-            progressBar.gameObject.SetActive(true);
-            progressBar.value = 0f;
-        }
-
-        if (progressText != null)
-        {
-            progressText.gameObject.SetActive(true);
-            progressText.text = "Progress: 0%";
-        }
-
-        // Rest of your existing StartFishingStage code...
         Vibration.Vibrate(500);
         Debug.Log("Vibration should have started (first time)");
         Invoke(nameof(VibrateAgain), 0.5f);
@@ -311,8 +104,14 @@ public class FishFightController : MonoBehaviour
         progress = 0f;
         lastProgressUpdateTime = Time.time;
 
+        // Show the UI elements when fishing starts
+        if (statusText != null) statusText.gameObject.SetActive(true);
+        if (progressBar != null) progressBar.gameObject.SetActive(true);
+        if (progressText != null) progressText.gameObject.SetActive(true);
+
         UpdateProgressUI();
     }
+
     void VibrateAgain()
     {
         Vibration.Vibrate(500);
@@ -391,16 +190,6 @@ public class FishFightController : MonoBehaviour
                         ShowStatus("Success! You have the fish");
                         Debug.Log("Fishing succeeded");
 
-                        if (hookedFish != null)
-                        {
-                            // Make sure this object persists
-                            DontDestroyOnLoad(this.gameObject);
-                            // Make fish persist
-                            hookedFish.transform.parent = null;
-                            DontDestroyOnLoad(hookedFish.gameObject);
-                            Debug.Log("Fish and FishFightController set to persist");
-                        }
-
                         Invoke(nameof(SwitchToTiltTestScene), successMessageDuration);
                     }
                 }
@@ -426,23 +215,9 @@ public class FishFightController : MonoBehaviour
             }
         }
     }
-    private void PrepareForSceneTransition()
-    {
-        if (hookedFish != null)
-        {
-            hookedFish.transform.SetParent(null);
-            DontDestroyOnLoad(hookedFish.gameObject);
 
-            // Store original state
-            PlayerPrefs.SetFloat("FishScale", 0.3f);
-            PlayerPrefs.SetFloat("FishRotationY", 90f);
-            PlayerPrefs.Save();
-        }
-    }
     void SwitchToTiltTestScene()
     {
-        PrepareForSceneTransition();
-        SceneManager.sceneLoaded += OnTiltSceneLoaded;
         SceneManager.LoadScene(targetSceneName);
     }
 
@@ -450,24 +225,7 @@ public class FishFightController : MonoBehaviour
     {
         canDetectTooHardPull = true;
     }
-    void OnTiltSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == targetSceneName)
-        {
-            if (hookedFish != null)
-            {
-                hookedFish.PrepareForTiltScene();
 
-                // Restore saved state
-                float savedScale = PlayerPrefs.GetFloat("FishScale", 0.3f);
-                float savedRotationY = PlayerPrefs.GetFloat("FishRotationY", 90f);
-
-                hookedFish.transform.localScale = new Vector3(savedScale, savedScale, savedScale);
-                hookedFish.transform.rotation = Quaternion.Euler(0f, savedRotationY, 0f);
-            }
-            SceneManager.sceneLoaded -= OnTiltSceneLoaded;
-        }
-    }
     void UpdateProgressUI()
     {
         if (progressBar != null)
@@ -487,54 +245,5 @@ public class FishFightController : MonoBehaviour
         {
             statusText.text = message;
         }
-    }
-
-    public FishBehavior GetHookedFish()
-    {
-        return hookedFish;
-    }
-
-    public void ClearHookedFish()
-    {
-        if (hookedFish != null)
-        {
-            Destroy(hookedFish.gameObject);
-            hookedFish = null;
-        }
-    }
-
-    public void ResetFishing()
-    {
-        Debug.Log("Resetting fishing state - Start");
-
-        // Reset all state variables
-        isBaitReady = false;
-        isWaitingForHook = false;
-        if (hookedFish != null)
-        {
-            Destroy(hookedFish.gameObject);
-            hookedFish = null;
-        }
-        timeInHookRange = 0f;
-        isFishing = false;
-        progress = 0f;
-        lastPullTime = 0f;
-        consecutiveTooHardPulls = 0;
-        consecutiveNoPulls = 0;
-        pullState = PullGestureState.None;
-
-        // Re-find UI elements in case they were destroyed/recreated
-        if (fishingPanel == null) fishingPanel = GameObject.Find("FishingPanel");
-        if (statusText == null) statusText = GameObject.Find("StatusText")?.GetComponent<Text>();
-        if (progressBar == null) progressBar = GameObject.Find("ProgressBar")?.GetComponent<Slider>();
-        if (progressText == null) progressText = GameObject.Find("ProgressText")?.GetComponent<Text>();
-
-        // Hide all UI elements
-        HideAllUI();
-
-        // Cancel any ongoing invokes
-        CancelInvoke();
-
-        Debug.Log("Fishing controller reset complete");
     }
 }
