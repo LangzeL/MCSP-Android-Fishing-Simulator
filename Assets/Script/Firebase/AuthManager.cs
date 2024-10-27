@@ -5,6 +5,7 @@ using Firebase.Auth;
 using Firebase.Extensions;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System;
 
 public class AuthManager : MonoBehaviour
 {
@@ -21,39 +22,56 @@ public class AuthManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("[AUTH] AuthManager Start called");
+
+        if (FirebaseManager.Instance == null)
+        {
+            Debug.LogError("[AUTH_ERROR] FirebaseManager instance is null");
+            return;
+        }
+
+        Debug.Log("[AUTH] Firebase initialized status: " + FirebaseManager.Instance.isFirebaseInitialized);
+
         if (FirebaseManager.Instance.isFirebaseInitialized)
         {
             InitializeAuth();
+        }
+        else
+        {
+            Debug.Log("[AUTH] Waiting for Firebase initialization, subscribing to event");
+            FirebaseManager.Instance.OnFirebaseInitialized += InitializeAuth;
+        }
+    }
+    void InitializeAuth()
+    {
+        try
+        {
+            Debug.Log("[AUTH] Initializing Auth");
+            auth = FirebaseManager.Instance.auth;
+            Debug.Log("[AUTH] Auth instance obtained: " + (auth != null));
 
-            // Check if the user is already logged in
+            // Check current user
             user = auth.CurrentUser;
-            statusText.text = "";
+            Debug.Log("[AUTH] Current user status: " + (user != null ? "Logged in" : "Not logged in"));
+
             if (user != null)
             {
-                // User is signed in
-                Debug.Log("User is already logged in: " + auth.CurrentUser.Email);
+                Debug.Log("[AUTH] User is already logged in: " + user.Email);
                 string displayName = GetDisplayName(user);
                 playerNameText.text = "Welcome, " + displayName;
             }
             else
             {
-                // User is not signed in
                 playerNameText.text = "Please Login";
             }
+
+            FirebaseManager.Instance.OnFirebaseInitialized -= InitializeAuth;
+            Debug.Log("[AUTH] Auth initialization completed");
         }
-        else
+        catch (Exception ex)
         {
-            FirebaseManager.Instance.OnFirebaseInitialized += InitializeAuth;
+            Debug.LogError($"[AUTH_ERROR] InitializeAuth failed: {ex.Message}\n{ex.StackTrace}");
         }
-    }
-
-    void InitializeAuth()
-    {
-        auth = FirebaseManager.Instance.auth;
-        Debug.Log("AuthManager: Firebase Auth initialized.");
-
-        // Unsubscribe from the event to prevent memory leaks
-        FirebaseManager.Instance.OnFirebaseInitialized -= InitializeAuth;
     }
 
     // Get display name from email or user profile
@@ -131,7 +149,7 @@ public class AuthManager : MonoBehaviour
 
             // Optionally set the user's display name
             UpdateUserProfile(user, email.Split('@')[0]);
-            
+
             string displayName = GetDisplayName(user);
             playerNameText.text = "Welcome, " + displayName;
             HideLoginPanel();
@@ -142,33 +160,67 @@ public class AuthManager : MonoBehaviour
     // Login an existing user
     public void LoginUser()
     {
-        string email = emailInputField.text;
-        string password = passwordInputField.text;
-
-        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
+        try
         {
-            if (task.IsCanceled)
+            Debug.Log("[AUTH] Starting login process");
+
+            // Check Firebase initialization
+            if (!FirebaseManager.Instance.isFirebaseInitialized)
             {
-                Debug.LogError("Login was canceled.");
-                statusText.text = "Login canceled.";
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                Debug.LogError("Login encountered an error: " + task.Exception);
-                HandleAuthError(task.Exception, statusText);
+                Debug.LogError("[AUTH_ERROR] Firebase not initialized during login attempt");
+                statusText.text = "System initializing, please wait...";
+                FirebaseManager.Instance.ReinitializeFirebase();
                 return;
             }
 
-            // Login successful
-            user = task.Result.User;
-            Debug.LogFormat("User logged in successfully: {0} ({1})", user.Email, user.UserId);
+            // Check auth instance
+            if (auth == null)
+            {
+                Debug.LogError("[AUTH_ERROR] Auth instance is null, attempting to reinitialize");
+                auth = FirebaseManager.Instance.auth;
+                if (auth == null)
+                {
+                    Debug.LogError("[AUTH_ERROR] Failed to get auth instance");
+                    statusText.text = "Authentication system error. Please restart the app.";
+                    return;
+                }
+            }
 
-            string displayName = GetDisplayName(user);
-            playerNameText.text = "Welcome, " + displayName;
-            HideLoginPanel();
-            OnLoginSuccess(user);
-        });
+            string email = emailInputField.text;
+            string password = passwordInputField.text;
+
+            Debug.Log("[AUTH] Attempting login with email: " + email);
+
+            auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("Login was canceled.");
+                    statusText.text = "Login canceled.";
+                    return;
+                }
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("Login encountered an error: " + task.Exception);
+                    HandleAuthError(task.Exception, statusText);
+                    return;
+                }
+
+                // Login successful
+                user = task.Result.User;
+                Debug.LogFormat("User logged in successfully: {0} ({1})", user.Email, user.UserId);
+
+                string displayName = GetDisplayName(user);
+                playerNameText.text = "Welcome, " + displayName;
+                HideLoginPanel();
+                OnLoginSuccess(user);
+            });
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[AUTH_ERROR] Login process failed: {ex.Message}\n{ex.StackTrace}");
+            statusText.text = "Login failed. Please try again.";
+        }
     }
 
     // Call this after successful login
