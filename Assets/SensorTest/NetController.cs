@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using System.Collections;
+using System;
 
 public class NetController : MonoBehaviour
 {
@@ -9,9 +9,7 @@ public class NetController : MonoBehaviour
     public Text pitchText;
     public Text rollText;
     public GameObject fish;
-    public GameObject winWindowPrefab; // Prefab for the "You Win" panel
-    public GameObject bubbleObject;    // Reference to the existing bubble GameObject in the scene
-    private GameObject winWindowInstance;
+    public GameObject winWindowPrefab; // Prefab for the "You Win" window
 
     private Vector3 netPosition;
     private float pitch;
@@ -21,20 +19,10 @@ public class NetController : MonoBehaviour
     private float captureTimer = 0f;
     private bool isCapturing = false;
 
+
     void Start()
     {
         netPosition = transform.position;
-
-        // Ensure the win window and bubble are hidden at the start
-        if (winWindowPrefab != null)
-        {
-            winWindowPrefab.SetActive(false);
-        }
-
-        if (bubbleObject != null)
-        {
-            bubbleObject.SetActive(false);
-        }
     }
 
     void Update()
@@ -48,6 +36,7 @@ public class NetController : MonoBehaviour
 
         // Calculate movement based on tilt
         float currentMoveSpeed = baseMoveSpeed + Mathf.Sqrt(Mathf.Abs(pitch) + Mathf.Abs(roll)) * 0.00005f;
+        // Debug.Log($"current roll: {roll}, current pitch: {pitch}, currentMoveSpeed: {currentMoveSpeed}");
         Vector3 movement = new Vector3(roll, pitch, 0) * currentMoveSpeed * Time.deltaTime;
 
         // Update net position
@@ -84,6 +73,7 @@ public class NetController : MonoBehaviour
         else
             rollDirection = "Level";
 
+        // Update the UI text with one decimal place
         if (pitchText != null && rollText != null)
         {
             pitchText.text = $"Pitch: {pitch:F1}° {pitchDirection}";
@@ -99,16 +89,19 @@ public class NetController : MonoBehaviour
     {
         if (fish == null) return;
 
+        // Calculate bounds
         Collider2D netCollider = GetComponent<Collider2D>();
         Collider2D fishCollider = fish.GetComponent<Collider2D>();
 
         if (netCollider != null && fishCollider != null)
         {
+            // Check if the net completely covers the fish's center
             if (netCollider.bounds.Contains(fish.transform.position))
             {
                 Vector2 fishPos = fish.transform.position;
                 Vector2 netPos = transform.position;
 
+                // Calculate net radius from CircleCollider2D, accounting for scale
                 CircleCollider2D circleCollider = netCollider as CircleCollider2D;
                 if (circleCollider == null)
                 {
@@ -117,6 +110,7 @@ public class NetController : MonoBehaviour
                 }
                 float netRadius = circleCollider.radius * Mathf.Max(transform.localScale.x, transform.localScale.y);
 
+                // Calculate fish "radius" based on BoxCollider2D's half-diagonal
                 BoxCollider2D boxCollider = fishCollider as BoxCollider2D;
                 if (boxCollider == null)
                 {
@@ -124,12 +118,15 @@ public class NetController : MonoBehaviour
                     return;
                 }
                 Vector2 boxSize = boxCollider.size;
+                // Account for scale
                 boxSize.x *= fish.transform.localScale.x;
                 boxSize.y *= fish.transform.localScale.y;
                 float fishRadius = (Mathf.Sqrt(boxSize.x * boxSize.x + boxSize.y * boxSize.y)) / 2f;
 
+                // Calculate the distance between net and fish centers
                 float distance = Vector2.Distance(fishPos, netPos);
 
+                // Check if the net completely covers the fish
                 if (distance + fishRadius < netRadius)
                 {
                     if (!isCapturing)
@@ -139,10 +136,14 @@ public class NetController : MonoBehaviour
                         Debug.Log("Capture started.");
                     }
 
+                    // Increment the timer
                     captureTimer += Time.deltaTime;
+                    Debug.Log($"Capture Timer: {captureTimer:F2} / {captureDelay}");
 
+                    // Check if the capture delay has been met
                     if (captureTimer >= captureDelay)
                     {
+                        Debug.Log("Capture completed.");
                         CaptureFish();
                     }
                 }
@@ -158,6 +159,26 @@ public class NetController : MonoBehaviour
         }
     }
 
+
+    // void CheckCapture()
+    // {
+    //     if (fish == null) return;
+
+    //     // Calculate bounds
+    //     Collider2D netCollider = GetComponent<Collider2D>();
+    //     Collider2D fishCollider = fish.GetComponent<Collider2D>();
+
+    //     if (netCollider != null && fishCollider != null)
+    //     {
+    //         // Directly call CaptureFish() for testing
+    //         if (netCollider.bounds.Contains(fish.transform.position))
+    //         {
+    //             CaptureFish();
+    //         }
+    //     }
+    // }
+
+
     void ResetCapture()
     {
         if (isCapturing)
@@ -168,46 +189,36 @@ public class NetController : MonoBehaviour
         }
     }
 
+
     void CaptureFish()
     {
+        // Find the Canvas in the scene
         Canvas mainCanvas = FindObjectOfType<Canvas>();
 
         if (winWindowPrefab != null && mainCanvas != null)
         {
-            // Instantiate the "You Win" panel and make it visible
-            winWindowInstance = Instantiate(winWindowPrefab, mainCanvas.transform);
-            winWindowInstance.SetActive(true); // Ensure the panel is shown
-            winWindowInstance.transform.SetAsLastSibling();
-
-            // Start the text color-changing coroutine
-            Text winText = winWindowInstance.transform.Find("WinText").GetComponent<Text>();
-            if (winText != null)
-            {
-                StartCoroutine(ChangeTextColor(winText));
-            }
-
-            // Enable the bubble object
-            if (bubbleObject != null)
-            {
-                bubbleObject.SetActive(true);
-                Debug.Log("Bubble effect revealed.");
-            }
-
-            Debug.Log("You Win panel instantiated successfully.");
+            // Instantiate the prefab as a child of the Canvas
+            GameObject winWindow = Instantiate(winWindowPrefab, mainCanvas.transform);
+            winWindow.transform.SetAsLastSibling(); // Ensure it's on top
+            Debug.Log("You Win window instantiated successfully.");
         }
         else
         {
             Debug.LogError("WinWindowPrefab or Canvas not found in the scene.");
         }
 
+        // Disable NetController to stop net movement
         this.enabled = false;
+        Debug.Log("NetController disabled.");
 
+        // Disable FishController to stop fish movement
         if (fish != null)
         {
             FishController fishController = fish.GetComponent<FishController>();
             if (fishController != null)
             {
                 fishController.enabled = false;
+                Debug.Log("FishController disabled.");
             }
             else
             {
@@ -216,14 +227,6 @@ public class NetController : MonoBehaviour
         }
     }
 
-    IEnumerator ChangeTextColor(Text winText)
-    {
-        while (true)
-        {
-            winText.color = Color.green;
-            yield return new WaitForSeconds(0.5f);
-            winText.color = Color.blue;
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
+
+
 }
