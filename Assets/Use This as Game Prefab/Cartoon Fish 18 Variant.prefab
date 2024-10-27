@@ -106,6 +106,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5109267136878366086}
+    - targetCorrespondingSourceObject: {fileID: 7928458970453641090, guid: 360088943c6e6964cb29bb4029fbcb6a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 314299515857948506}
   m_SourcePrefab: {fileID: 100100000, guid: 360088943c6e6964cb29bb4029fbcb6a, type: 3}
 --- !u!1 &6207816020907417106 stripped
 GameObject:
@@ -127,3 +131,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swimSpeed: 0.4
   directionChangeInterval: 2
+--- !u!114 &314299515857948506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6207816020907417106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b311a2af531ac498a7a3a9ab8e974a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fishID: 18
+  fishName: Coral Sunbeam
+  score: 20
+  image: {fileID: 21300000, guid: 29ba6dc1c08e19149a24d25cd7acf66b, type: 3}

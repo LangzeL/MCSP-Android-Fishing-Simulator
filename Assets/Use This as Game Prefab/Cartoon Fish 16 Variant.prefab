@@ -106,6 +106,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7980926587714736946}
+    - targetCorrespondingSourceObject: {fileID: 4183163858650139225, guid: cbfbace1d7624224eb6b535cd12d8bfe,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1638041438011944919}
   m_SourcePrefab: {fileID: 100100000, guid: cbfbace1d7624224eb6b535cd12d8bfe, type: 3}
 --- !u!1 &7805807495471657645 stripped
 GameObject:
@@ -127,3 +131,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swimSpeed: 0.4
   directionChangeInterval: 2
+--- !u!114 &-1638041438011944919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7805807495471657645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b311a2af531ac498a7a3a9ab8e974a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fishID: 16
+  fishName: Azure Puddle
+  score: 20
+  image: {fileID: 21300000, guid: d228d4cb14c9f0d4f86bc13f1011d05b, type: 3}

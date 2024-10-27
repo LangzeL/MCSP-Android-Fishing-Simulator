@@ -106,6 +106,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5886446960338154963}
+    - targetCorrespondingSourceObject: {fileID: 8458579023853055511, guid: 50550c059a0753b47b3a13bac4dff7f9,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2624103938142908829}
   m_SourcePrefab: {fileID: 100100000, guid: 50550c059a0753b47b3a13bac4dff7f9, type: 3}
 --- !u!1 &3934963226448371883 stripped
 GameObject:
@@ -127,3 +131,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swimSpeed: 0.4
   directionChangeInterval: 2
+--- !u!114 &-2624103938142908829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3934963226448371883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b311a2af531ac498a7a3a9ab8e974a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fishID: 21
+  fishName: Amber Finray
+  score: 20
+  image: {fileID: 21300000, guid: a8b5d95b7214ada4ca50421da991f746, type: 3}

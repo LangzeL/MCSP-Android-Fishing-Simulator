@@ -116,6 +116,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2689956735522649769}
+    - targetCorrespondingSourceObject: {fileID: 2646805778912476441, guid: fc463638f5bf429498c032aa5f54d06b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3911027823948829497}
   m_SourcePrefab: {fileID: 100100000, guid: fc463638f5bf429498c032aa5f54d06b, type: 3}
 --- !u!1 &2949387477221633962 stripped
 GameObject:
@@ -137,3 +141,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swimSpeed: 0.4
   directionChangeInterval: 2
+--- !u!114 &3911027823948829497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2949387477221633962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b311a2af531ac498a7a3a9ab8e974a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fishID: 03
+  fishName: Purple Spotter
+  score: 10
+  image: {fileID: 21300000, guid: 0152a43ebcbe3b74f9afd6ca9251f026, type: 3}
