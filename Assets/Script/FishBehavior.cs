@@ -2,58 +2,93 @@ using UnityEngine;
 
 public class FishBehavior : MonoBehaviour
 {
-    public float swimSpeed = 2.0f;               // 游动速度
-    public float directionChangeInterval = 1.0f; // 改变方向的时间间隔
-    private Vector3 swimDirection;               // 游动方向
-    private Camera mainCamera;                   // 主摄像机
-    private bool isHooked = false;               // 是否被钩住
+    public float swimSpeed = 2.0f;
+    public float directionChangeInterval = 1.0f;
+    private Vector3 swimDirection;
+    private Camera mainCamera;
+    private bool isHooked = false;
+    private bool isInTiltScene = false;
+    private bool isCaptured = false;
+
+    [SerializeField]
+    private string fishType = "Normal";
+
 
     void Start()
     {
-        mainCamera = Camera.main; // 获取主摄像机
-        InvokeRepeating("ChangeDirection", 0f, directionChangeInterval); // 定期改变游动方向
+        SetupCamera();
+        InvokeRepeating("ChangeDirection", 0f, directionChangeInterval);
     }
 
+    void SetupCamera()
+    {
+        mainCamera = Camera.main;
+        if (mainCamera == null)
+        {
+            Debug.LogError("Main camera not found!");
+        }
+    }
+    void OnEnable()
+    {
+        // Reset camera reference when enabled
+        mainCamera = Camera.main;
+        if (!isInTiltScene && !isHooked)
+        {
+            // Only start movement if not in special states
+            StartMovement();
+        }
+    }
+    void StartMovement()
+    {
+        CancelInvoke("ChangeDirection");
+        ChangeDirection(); // Immediate first direction
+        InvokeRepeating("ChangeDirection", 0f, directionChangeInterval);
+    }
     void ChangeDirection()
     {
-        if (isHooked) return; // 如果被钩住，不再改变方向
+        if ((isHooked && !isInTiltScene) || isCaptured) return;
 
-        // 随机生成游动方向
         float xDirection = Random.Range(-1f, 1f);
         float yDirection = Random.Range(-1f, 1f);
-        float zDirection = 0f; // 如果是2D场景，只考虑 x 和 y 方向
+        float zDirection = 0f;
 
         swimDirection = new Vector3(xDirection, yDirection, zDirection).normalized;
-
-        // 更新鱼的朝向
+        Debug.Log($"New direction set: {swimDirection}"); // Debug log
         UpdateFishRotation();
     }
 
     void Update()
     {
-        if (isHooked) return; // 被钩住后不再移动
+        if ((isHooked && !isInTiltScene) || isCaptured) return;
 
-        // 移动鱼
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+            if (mainCamera == null) return;
+        }
+
+        // Add debug log for movement
+        Debug.Log($"Moving fish: direction={swimDirection}, speed={swimSpeed}, deltaTime={Time.deltaTime}");
         transform.position += swimDirection * swimSpeed * Time.deltaTime;
-
-        // 检查是否在摄像机的视野范围内
         KeepWithinCameraBounds();
     }
 
     void KeepWithinCameraBounds()
     {
+        if (mainCamera == null) return;
+
         Vector3 viewportPosition = mainCamera.WorldToViewportPoint(transform.position);
 
         if (viewportPosition.x < 0f || viewportPosition.x > 1f)
         {
-            swimDirection.x = -swimDirection.x; // 反转水平方向
+            swimDirection.x = -swimDirection.x;
             viewportPosition.x = Mathf.Clamp(viewportPosition.x, 0.01f, 0.99f);
             UpdateFishRotation();
         }
 
         if (viewportPosition.y < 0f || viewportPosition.y > 1f)
         {
-            swimDirection.y = -swimDirection.y; // 反转垂直方向
+            swimDirection.y = -swimDirection.y;
             viewportPosition.y = Mathf.Clamp(viewportPosition.y, 0.01f, 0.99f);
             UpdateFishRotation();
         }
@@ -63,13 +98,29 @@ public class FishBehavior : MonoBehaviour
 
     void UpdateFishRotation()
     {
-        if (swimDirection.x > 0)
+        if (isInTiltScene)
         {
-            transform.rotation = Quaternion.Euler(0f, -90f, 0f); // 朝向右侧
+            // Only rotate around Y axis based on X direction
+            if (swimDirection.x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0f, -90f, 0f);  // Facing right
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0f, 90f, 0f);   // Facing left
+            }
+            Debug.Log($"Updated rotation in tilt scene: {transform.rotation.eulerAngles}"); // Debug log
         }
-        else if (swimDirection.x < 0)
+        else
         {
-            transform.rotation = Quaternion.Euler(0f, 90f, 0f); // 朝向左侧
+            if (swimDirection.x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+            }
+            else if (swimDirection.x < 0)
+            {
+                transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+            }
         }
     }
 
@@ -81,20 +132,74 @@ public class FishBehavior : MonoBehaviour
     public void OnFishHooked(Vector3 hookPosition)
     {
         isHooked = true;
-
-        // 将鱼的位置设置为钓钩的位置
         transform.position = hookPosition;
 
-        // 开始上鱼动画
         Animator animator = GetComponent<Animator>();
         if (animator != null)
         {
-            animator.SetTrigger("OnHooked"); // 触发被钓住的动画
+            animator.SetTrigger("OnHooked");
         }
 
-        // 设置鱼旋转，使其有被钓起的感觉
         transform.rotation = Quaternion.Euler(90f, -90f, 0f);
-
         Debug.Log("Fish Hooked! Animation triggered.");
+    }
+
+    public string GetFishType()
+    {
+        return fishType;
+    }
+
+
+    public void PrepareForTiltScene()
+    {
+        Debug.Log("Preparing fish for tilt scene - START"); // Debug log
+
+        // First, ensure we're not hooked and can move
+        isInTiltScene = true;
+        isHooked = false;
+        isCaptured = false;
+
+        // Force the scale to 0.3
+        transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        Debug.Log($"Scale set to: {transform.localScale}"); // Debug log
+
+        // Set initial rotation (facing left)
+        transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+        Debug.Log($"Initial rotation set to: {transform.rotation.eulerAngles}"); // Debug log
+
+        // Reset speed to default
+        swimSpeed = 2.0f;
+
+        // Stop any ongoing animations
+        Animator animator = GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
+
+        // Restart movement system
+        StartMovement();
+
+        Debug.Log("Preparing fish for tilt scene - COMPLETE"); // Debug log
+    }
+
+    public void SetMovementParameters(float newSpeed, float newInterval)
+    {
+        swimSpeed = newSpeed;
+        directionChangeInterval = newInterval;
+
+        // Restart the direction change cycle
+        CancelInvoke("ChangeDirection");
+        ChangeDirection(); // Immediate change
+        InvokeRepeating("ChangeDirection", directionChangeInterval, directionChangeInterval);
+
+        Debug.Log($"Movement parameters updated - Speed: {newSpeed}, Interval: {newInterval}");
+    }
+
+    public void OnCaptured()
+    {
+        isCaptured = true;
+        CancelInvoke("ChangeDirection");
+        swimDirection = Vector3.zero;
     }
 }

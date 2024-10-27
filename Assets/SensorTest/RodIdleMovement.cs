@@ -21,10 +21,7 @@ public class RodIdleMovement : MonoBehaviour
     [Tooltip("Smoothing factor for idle movement. Higher value means more smoothing.")]
     private float smoothingFactor = 0.1f;
 
-    private Vector3 smoothPosition = Vector3.zero;  
-    private Quaternion smoothRotation = Quaternion.identity;
-
-    [Header("Fishing Settings")]
+    [Header("References")]
     [Tooltip("Reference to the Bait GameObject.")]
     public GameObject bait;
 
@@ -34,10 +31,15 @@ public class RodIdleMovement : MonoBehaviour
     [Tooltip("Reference to the rotation center GameObject.")]
     public GameObject rodRotationCentre;
 
+    private Vector3 smoothPosition = Vector3.zero;
+    private Quaternion smoothRotation = Quaternion.identity;
     private Vector3 initialPosition;
     private Quaternion initialRotation;
-
     private bool isFishingStarted = false;
+
+    private BaitController baitController;
+    private FishFightController fishFightController;
+    private Canvas mainCanvas;
 
     void Start()
     {
@@ -57,7 +59,33 @@ public class RodIdleMovement : MonoBehaviour
         {
             Debug.LogError("Bait GameObject is not assigned.");
         }
+        else
+        {
+            baitController = bait.GetComponent<BaitController>();
+            if (baitController == null)
+            {
+                Debug.LogError("BaitController not found on bait object.");
+            }
+        }
 
+        fishFightController = FindObjectOfType<FishFightController>();
+        if (fishFightController == null)
+        {
+            Debug.LogError("FishFightController not found in scene.");
+        }
+
+        // Find or create main canvas
+        mainCanvas = FindObjectOfType<Canvas>();
+        if (mainCanvas == null)
+        {
+            GameObject canvasGO = new GameObject("MainCanvas");
+            mainCanvas = canvasGO.AddComponent<Canvas>();
+            mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvasGO.AddComponent<CanvasScaler>();
+            canvasGO.AddComponent<GraphicRaycaster>();
+        }
+
+        // Subscribe to fishing gesture
         FishingGestureDetector gestureDetector = FindObjectOfType<FishingGestureDetector>();
         if (gestureDetector != null)
         {
@@ -75,6 +103,7 @@ public class RodIdleMovement : MonoBehaviour
 
         if (!isFishingStarted)
         {
+            // Pre-fishing idle movement
             float tiltX = accel.x;
             float tiltY = accel.y;
 
@@ -92,9 +121,17 @@ public class RodIdleMovement : MonoBehaviour
 
             rodRotationCentre.transform.position = smoothPosition;
             rodRotationCentre.transform.rotation = smoothRotation;
+
+            // Update bait position if it's attached
+            if (bait != null && bait.transform.parent != null)
+            {
+                bait.transform.position = rodRotationCentre.transform.position;
+                bait.transform.rotation = rodRotationCentre.transform.rotation;
+            }
         }
         else
         {
+            // Post-fishing rotation only
             float tiltY = accel.y;
 
             float rotX = initialRotation.eulerAngles.x - tiltY * rotationSensitivityZ * 10;
@@ -109,67 +146,31 @@ public class RodIdleMovement : MonoBehaviour
 
     void StartFishing()
     {
-        if (isFishingStarted)
-            return;
+        if (isFishingStarted) return;
 
         isFishingStarted = true;
         Debug.Log("Fishing has started.");
 
+        // Detach bait from rod
         if (bait != null)
         {
             bait.transform.parent = null;
-
-            Rigidbody baitRb = bait.GetComponent<Rigidbody>();
-            if (baitRb == null)
-            {
-                baitRb = bait.AddComponent<Rigidbody>();
-            }
-
-            baitRb.isKinematic = false;
-            baitRb.useGravity = true;
-
-            Vector3 launchDirection = rodRotationCentre.transform.forward;
-            float launchForce = 10f;
-            baitRb.AddForce(launchDirection * launchForce, ForceMode.Impulse);
-
-            Debug.Log("Bait has been detached and launched.");
-        }
-        else
-        {
-            Debug.LogError("Bait GameObject is not assigned.");
         }
 
-        if (fishingUIWindowPrefab != null)
+        // Create fishing UI
+        if (fishingUIWindowPrefab != null && mainCanvas != null)
         {
-            Canvas mainCanvas = FindObjectOfType<Canvas>();
-            if (mainCanvas == null)
-            {
-                GameObject canvasGO = new GameObject("MainCanvas");
-                mainCanvas = canvasGO.AddComponent<Canvas>();
-                mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                canvasGO.AddComponent<CanvasScaler>();
-                canvasGO.AddComponent<GraphicRaycaster>();
-            }
-
             GameObject fishingUI = Instantiate(fishingUIWindowPrefab, mainCanvas.transform);
             fishingUI.transform.SetAsLastSibling();
 
-            FishFightController fishFightController = FindObjectOfType<FishFightController>();
             if (fishFightController != null)
             {
                 fishFightController.fishingPanel = fishingUI;
-                fishFightController.StartFishBite();
             }
-            else
-            {
-                Debug.LogError("FishFightController not found.");
-            }
-
-            Debug.Log("'Fishing...' UI window displayed.");
         }
         else
         {
-            Debug.LogError("FishingUIWindowPrefab is not assigned.");
+            Debug.LogError("Missing fishingUIWindowPrefab or mainCanvas reference.");
         }
     }
 
@@ -180,5 +181,19 @@ public class RodIdleMovement : MonoBehaviour
         {
             gestureDetector.OnFishingStart -= StartFishing;
         }
+    }
+
+    // Helper method to reset fishing state if needed
+    public void ResetFishing()
+    {
+        isFishingStarted = false;
+        if (bait != null)
+        {
+            bait.transform.parent = transform;
+            bait.transform.position = rodRotationCentre.transform.position;
+            bait.transform.rotation = rodRotationCentre.transform.rotation;
+        }
+        rodRotationCentre.transform.position = initialPosition;
+        rodRotationCentre.transform.rotation = initialRotation;
     }
 }

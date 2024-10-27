@@ -945,7 +945,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 608349f89f1be644bb72a706f4a6f5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fishBiteDelay: 5
+  hookDistance: 1
+  hookTime: 3
   fishingPanel: {fileID: 761587915}
   statusText: {fileID: 1816869022}
   progressBar: {fileID: 1577797583}
@@ -1825,6 +1826,50 @@ MonoBehaviour:
   accelUpDownText: {fileID: 0}
   accelLeftRightText: {fileID: 0}
   accelMagnitudeText: {fileID: 0}
+--- !u!1 &715753689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 715753691}
+  - component: {fileID: 715753690}
+  m_Layer: 0
+  m_Name: SceneTransitionFishManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &715753690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715753689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1248009b6b170984b943e68915622f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &715753691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715753689}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.28704762, y: 0.4229808, z: -6.8899894}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &734062259
 GameObject:
   m_ObjectHideFlags: 0
@@ -2369,7 +2414,6 @@ GameObject:
   - component: {fileID: 862658047}
   - component: {fileID: 862658049}
   - component: {fileID: 862658048}
-  - component: {fileID: 862658051}
   - component: {fileID: 862658052}
   - component: {fileID: 862658054}
   - component: {fileID: 862658053}
@@ -2446,21 +2490,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862658046}
   m_Mesh: {fileID: 5305871256624515941, guid: abab1ed6e354ad44cac6f5acadc10317, type: 3}
---- !u!114 &862658051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 862658046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fcdcc7ce88bf9c48a6c00db24f4d545, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bait: {fileID: 862658047}
-  hookDistance: 1
-  hookTime: 2
 --- !u!114 &862658052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2473,7 +2502,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3acd98a1f1db11942b797e5839658cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baitPositionOffset: {x: 0, y: 0, z: -6}
+  baitPositionOffset: {x: 0, y: 0, z: -7}
+  throwSpeed: 10
+  throwArcHeight: 2
+  throwDuration: 0.5
 --- !u!54 &862658053
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2516,7 +2548,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -5451,3 +5483,4 @@ SceneRoots:
   - {fileID: 1334260726}
   - {fileID: 503808869}
   - {fileID: 2032278472}
+  - {fileID: 715753691}

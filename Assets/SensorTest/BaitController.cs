@@ -2,20 +2,44 @@ using UnityEngine;
 
 public class BaitController : MonoBehaviour
 {
-    public Vector3 baitPositionOffset = new Vector3(0, 0, -6f); // Fixed Z-position for bait
+    public Vector3 baitPositionOffset = new Vector3(0, 0, -7f);
+    public float throwSpeed = 10f;
+    public float throwArcHeight = 2f;
+    public float throwDuration = 0.5f;
+
     private Rigidbody baitRigidbody;
     private bool hasRelocated = false;
+    private bool isThrowingInProgress = false;
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
+    private float throwStartTime;
+    private FishFightController fishFightController;
 
     void Start()
     {
-        // Get the Rigidbody component and ensure it is kinematic initially
+        // Setup Rigidbody
         baitRigidbody = GetComponent<Rigidbody>();
         if (baitRigidbody != null)
         {
             baitRigidbody.isKinematic = true;
+            baitRigidbody.useGravity = false;
         }
 
-        // Subscribe to the fishing start event
+        // Setup Collider
+        BoxCollider boxCollider = GetComponent<BoxCollider>();
+        if (boxCollider != null)
+        {
+            boxCollider.isTrigger = true;
+        }
+
+        // Find FishFightController
+        fishFightController = FindObjectOfType<FishFightController>();
+        if (fishFightController == null)
+        {
+            Debug.LogError("FishFightController not found in scene!");
+        }
+
+        // Subscribe to fishing gesture
         FishingGestureDetector gestureDetector = FindObjectOfType<FishingGestureDetector>();
         if (gestureDetector != null)
         {
@@ -23,54 +47,86 @@ public class BaitController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Relocates the bait to a position within the central cell of a 3x3 grid on the screen.
-    /// </summary>
+    void Update()
+    {
+        if (isThrowingInProgress)
+        {
+            float elapsedTime = Time.time - throwStartTime;
+            float throwProgress = elapsedTime / throwDuration;
+
+            if (throwProgress >= 1f)
+            {
+                FinishThrow();
+            }
+            else
+            {
+                Vector3 currentPosition = Vector3.Lerp(startPosition, targetPosition, throwProgress);
+                float arcHeight = throwArcHeight * Mathf.Sin(throwProgress * Mathf.PI);
+                currentPosition.y += arcHeight;
+                transform.position = currentPosition;
+            }
+        }
+    }
+
     void RelocateBait()
     {
-        if (hasRelocated)
-            return;
-
+        if (hasRelocated) return;
         hasRelocated = true;
 
-        // Calculate screen dimensions
         float screenWidth = Screen.width;
         float screenHeight = Screen.height;
-
-        // Determine the central cell boundaries in screen space
         float cellWidth = screenWidth / 3;
         float cellHeight = screenHeight / 3;
 
-        float minX = cellWidth;          // Left boundary of central cell
-        float maxX = cellWidth * 2;      // Right boundary of central cell
-        float minY = cellHeight;         // Bottom boundary of central cell
-        float maxY = cellHeight * 2;     // Top boundary of central cell
+        float minX = cellWidth;
+        float maxX = cellWidth * 2;
+        float minY = cellHeight;
+        float maxY = cellHeight * 2;
 
-        // Randomly choose a position within the center cell
         float randomX = Random.Range(minX, maxX);
         float randomY = Random.Range(minY, maxY);
         Vector3 targetScreenPosition = new Vector3(randomX, randomY, baitPositionOffset.z);
 
-        // Convert the screen position to world position
         Vector3 targetWorldPosition = Camera.main.ScreenToWorldPoint(targetScreenPosition);
+        targetPosition = new Vector3(targetWorldPosition.x, targetWorldPosition.y, baitPositionOffset.z);
 
-        // Relocate the bait to the calculated position
-        transform.position = new Vector3(targetWorldPosition.x, targetWorldPosition.y, baitPositionOffset.z);
+        startPosition = transform.position;
+        throwStartTime = Time.time;
+        isThrowingInProgress = true;
 
-        // Ensure the bait remains stationary
         if (baitRigidbody != null)
         {
-            baitRigidbody.isKinematic = true; // Make the Rigidbody kinematic to prevent physics forces
-            baitRigidbody.velocity = Vector3.zero; // Reset any velocity
-            baitRigidbody.angularVelocity = Vector3.zero; // Reset any angular velocity
+            baitRigidbody.isKinematic = true;
+            baitRigidbody.velocity = Vector3.zero;
+            baitRigidbody.angularVelocity = Vector3.zero;
         }
 
-        Debug.Log("Bait has been relocated to a new position within the center cell and is now stationary.");
+        Debug.Log("Starting bait throw animation.");
+    }
+
+    private void FinishThrow()
+    {
+        isThrowingInProgress = false;
+        transform.position = targetPosition;
+
+        if (baitRigidbody != null)
+        {
+            baitRigidbody.isKinematic = true;
+            baitRigidbody.velocity = Vector3.zero;
+            baitRigidbody.angularVelocity = Vector3.zero;
+        }
+
+        // Notify FishFightController that bait is ready
+        if (fishFightController != null)
+        {
+            fishFightController.OnBaitReady(transform);
+        }
+
+        Debug.Log("Bait throw complete - notifying FishFightController.");
     }
 
     void OnDestroy()
     {
-        // Unsubscribe from the event
         FishingGestureDetector gestureDetector = FindObjectOfType<FishingGestureDetector>();
         if (gestureDetector != null)
         {
