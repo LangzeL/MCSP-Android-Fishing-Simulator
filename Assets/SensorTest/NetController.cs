@@ -87,6 +87,7 @@ public class NetController : MonoBehaviour
             Debug.Log($"Successfully setup hooked fish reference: {fish.name}, IsHooked: {fish.GetComponent<FishBehavior>()?.IsHooked()}");
         }
     }
+
     void Update()
     {
         if (isFishCaptured) return;
@@ -247,6 +248,13 @@ public class NetController : MonoBehaviour
             if (fishBehavior != null)
             {
                 fishBehavior.OnCaptured();
+            }
+
+            // Get the fish data and call the FishOnCaught method
+            FishData fishData = fish.GetComponent<FishData>();
+            if (fishData != null)
+            {
+                FishOnCaught(fishData.fishID, fishData.score);
             }
         }
     }

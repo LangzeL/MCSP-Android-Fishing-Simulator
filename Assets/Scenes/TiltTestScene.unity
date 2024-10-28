@@ -875,6 +875,99 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &449585829
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 914976070}
+    m_Modifications:
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.8100004
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6.8100004
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -7.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5617370599491064030, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_Name
+      value: Pref_Net
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265655780956762379, guid: 6aa4489b6db40494d8589a52b010adce,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 23f42782d9a44e9439d6aef3313eae2c, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6aa4489b6db40494d8589a52b010adce, type: 3}
 --- !u!1 &586839780
 GameObject:
   m_ObjectHideFlags: 0
@@ -1511,7 +1604,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2f8349570a152884fb6cf7ebdc8c18b3, type: 3}
-  m_Color: {r: 0.24905658, g: 0.7490058, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1533,7 +1626,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1049028413}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &919025271
@@ -1850,6 +1944,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959146217}
   m_CullTransparentMesh: 1
+--- !u!4 &1049028413 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5097855291543980644, guid: 6aa4489b6db40494d8589a52b010adce,
+    type: 3}
+  m_PrefabInstance: {fileID: 449585829}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1104282160
 GameObject:
   m_ObjectHideFlags: 0
@@ -2035,6 +2135,7 @@ GameObject:
   - component: {fileID: 1182101276}
   - component: {fileID: 1182101278}
   - component: {fileID: 1182101277}
+  - component: {fileID: 1182101279}
   m_Layer: 5
   m_Name: WinText
   m_TagString: Untagged
@@ -2083,10 +2184,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
-    m_FontSize: 50
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 5
+    m_MinSize: 3
     m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -2094,7 +2195,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You Win!
+  m_Text: 'Congrats
+
+    you got
+
+    the fish !'
 --- !u!222 &1182101278
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2103,6 +2208,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182101275}
   m_CullTransparentMesh: 1
+--- !u!114 &1182101279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182101275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f199b1c5fd1e684d9f302a6927969c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minScale: 0.95
+  maxScale: 1.05
+  animationSpeed: 2
+  glowIntensity: 0.5
+  useGlowEffect: 1
+  glowColor: {r: 0.5, g: 0.8, b: 1, a: 1}
 --- !u!1 &1270513837
 GameObject:
   m_ObjectHideFlags: 0
@@ -2309,7 +2432,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Capture the fish with the Circle
+  m_Text: Capture the fish with the net
 --- !u!222 &1397712162
 CanvasRenderer:
   m_ObjectHideFlags: 0
