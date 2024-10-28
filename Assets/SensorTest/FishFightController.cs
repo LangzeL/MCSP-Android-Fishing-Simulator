@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class FishFightController : MonoBehaviour
 {
+    public AudioSource ThrowRodSource;
+    public AudioSource PullRodSource;
     private static FishFightController instance;
     public static FishFightController Instance
     {
@@ -176,6 +178,7 @@ public class FishFightController : MonoBehaviour
 
             if (timeInHookRange >= hookTime)
             {
+                PullRodSource.Play();
                 HookFish(fish);
             }
         }
@@ -237,6 +240,7 @@ public class FishFightController : MonoBehaviour
         isWaitingForHook = false;
 
         // Start fishing stage (which will show UI)
+        ThrowRodSource.Play();
         StartFishingStage();
         Debug.Log("Fish hooked! Starting fight sequence.");
     }
