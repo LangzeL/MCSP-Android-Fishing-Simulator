@@ -93,6 +93,8 @@ public class LeaderboardManager : MonoBehaviour
             {
                 currentPlayerEntry = entry;
                 currentPlayerRank = rank;
+                rank++;
+                continue;
             }
 
             GameObject item = Instantiate(leaderboardItemPrefab, contentParent);
