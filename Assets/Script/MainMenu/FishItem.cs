@@ -16,7 +16,7 @@ public class FishItem : MonoBehaviour
 
         if (isCaught)
         {
-            fishNameText.text = data.name;
+            fishNameText.text = data.fishName;
         }
         else
         {

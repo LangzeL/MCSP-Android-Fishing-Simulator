@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Firebase.Auth;
 using TMPro;
+using System.Collections.Generic;
 
 public class UserInfoManager : MonoBehaviour
 {
@@ -21,7 +22,8 @@ public class UserInfoManager : MonoBehaviour
 
         usernameText.text = "Username: " + userData.username;
         totalScoreText.text = "Total Score: " + userData.totalScore;
-        fishCaughtCountText.text = "Fish Caught: " + userData.fishCaught.Count + " species";
+        HashSet<string> fishCaughtSet = new HashSet<string>(userData.fishCaught);
+        fishCaughtCountText.text = "Fish Caught: " + fishCaughtSet.Count + " species";
     }
 }
 

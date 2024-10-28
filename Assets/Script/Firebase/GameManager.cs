@@ -44,10 +44,7 @@ public class GameManager : MonoBehaviour
     public void OnFishCaught(string fishID, int score)
     {
         // Update player's caught fish data
-        if (!currentUserData.fishCaught.Contains(fishID))
-        {
-            currentUserData.fishCaught.Add(fishID);
-        }
+        currentUserData.fishCaught.Add(fishID);
         // Update player's total score
         currentUserData.totalScore += score;
         // Save user data

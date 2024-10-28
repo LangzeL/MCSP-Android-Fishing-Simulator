@@ -250,11 +250,11 @@ public class NetController : MonoBehaviour
                 fishBehavior.OnCaptured();
             }
 
-            // Get the fish data and call the FishOnCaught method
+            // Get the fish data and call the OnFishCaught method
             FishData fishData = fish.GetComponent<FishData>();
             if (fishData != null)
             {
-                FishOnCaught(fishData.fishID, fishData.score);
+                GameManager.Instance.OnFishCaught(fishData.fishID, fishData.score);
             }
         }
     }
