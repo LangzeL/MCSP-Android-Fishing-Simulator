@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 public class FishingGestureDetector : MonoBehaviour
 {
+    public TutorialManager tutorialManager; // Reference to TutorialManager
+    private bool hasCasted = false;         // Flag to ensure the tutorial advances only once
+
     public AudioSource throwRodAudio;
     [Header("Gesture Detection Settings")]
     [Tooltip("Minimum overall acceleration magnitude to consider for gesture detection.")]
@@ -121,6 +124,14 @@ public class FishingGestureDetector : MonoBehaviour
         {
             // Fishing gesture is detected
             throwRodAudio.Play();
+
+            if (!hasCasted)
+            {
+                hasCasted = true;
+                tutorialManager.StopBlinking();
+                tutorialManager.NextStep();
+            }
+
             OnFishingStart?.Invoke();
             lastGestureTime = Time.time;
             Debug.Log("Fishing gesture detected");
