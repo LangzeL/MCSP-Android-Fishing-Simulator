@@ -53,7 +53,6 @@ public class FishBehavior : MonoBehaviour
         float zDirection = 0f;
 
         swimDirection = new Vector3(xDirection, yDirection, zDirection).normalized;
-        Debug.Log($"New direction set: {swimDirection}"); // Debug log
         UpdateFishRotation();
     }
 
@@ -67,8 +66,6 @@ public class FishBehavior : MonoBehaviour
             if (mainCamera == null) return;
         }
 
-        // Add debug log for movement
-        Debug.Log($"Moving fish: direction={swimDirection}, speed={swimSpeed}, deltaTime={Time.deltaTime}");
         transform.position += swimDirection * swimSpeed * Time.deltaTime;
         KeepWithinCameraBounds();
     }

@@ -107,7 +107,7 @@ public class NetController : MonoBehaviour
         float screenHalfHeight = Camera.main.orthographicSize;
 
         netPosition.x = Mathf.Clamp(netPosition.x, -screenHalfWidth, screenHalfWidth);
-        netPosition.y = Mathf.Clamp(netPosition.y, -screenHalfHeight, screenHalfHeight);
+        netPosition.y = Mathf.Clamp(netPosition.y, -screenHalfHeight+1f, screenHalfHeight+1f);
 
         transform.position = netPosition;
 
