@@ -129,8 +129,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d770d57890d634ea303ec51a573db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swimSpeed: 0.4
+  swimSpeed: 0.5
   directionChangeInterval: 2
+  fishType: Normal
 --- !u!114 &-3213445468752230724
 MonoBehaviour:
   m_ObjectHideFlags: 0

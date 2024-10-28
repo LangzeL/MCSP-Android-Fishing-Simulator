@@ -129,8 +129,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d770d57890d634ea303ec51a573db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swimSpeed: 0.4
+  swimSpeed: 1
   directionChangeInterval: 2
+  fishType: Normal
 --- !u!114 &-140101945557653223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,5 +146,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fishID: 20
   fishName: Blaze Coral
-  score: 20
+  score: 30
   image: {fileID: 21300000, guid: 37584f3076220f44b929d9de7aa6133f, type: 3}

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class FishingGestureDetector : MonoBehaviour
 {
+    public AudioSource throwRodAudio;
     [Header("Gesture Detection Settings")]
     [Tooltip("Minimum overall acceleration magnitude to consider for gesture detection.")]
     public float magnitudeThreshold = 2.0f; // Magnitude should be greater than 2 m/s²
@@ -119,6 +120,7 @@ public class FishingGestureDetector : MonoBehaviour
         if (currentState == GestureState.FirstPhase && magnitude > magnitudeThreshold)
         {
             // Fishing gesture is detected
+            throwRodAudio.Play();
             OnFishingStart?.Invoke();
             lastGestureTime = Time.time;
             Debug.Log("Fishing gesture detected");

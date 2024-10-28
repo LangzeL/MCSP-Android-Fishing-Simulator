@@ -5,6 +5,7 @@ using System.Collections;
 
 public class NetController : MonoBehaviour
 {
+    public AudioSource catchUpFishAudio;
     private float baseMoveSpeed = 0.5f;
     public Text pitchText;
     public Text rollText;
@@ -218,7 +219,7 @@ public class NetController : MonoBehaviour
     {
         if (isFishCaptured) return;
         isFishCaptured = true;
-
+        catchUpFishAudio.Play();
         Canvas mainCanvas = FindObjectOfType<Canvas>();
 
         if (winWindowPrefab != null && mainCanvas != null)

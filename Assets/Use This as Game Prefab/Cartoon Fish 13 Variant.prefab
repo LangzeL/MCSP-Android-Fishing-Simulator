@@ -131,6 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swimSpeed: 0.4
   directionChangeInterval: 2
+  fishType: Normal
 --- !u!114 &1118699152003150137
 MonoBehaviour:
   m_ObjectHideFlags: 0

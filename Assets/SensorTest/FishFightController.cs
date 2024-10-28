@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class FishFightController : MonoBehaviour
 {
-    public AudioSource ThrowRodSource;
+    public AudioSource failSource;
+    public AudioSource hookedSource;
     public AudioSource PullRodSource;
     private static FishFightController instance;
     public static FishFightController Instance
@@ -87,7 +88,7 @@ public class FishFightController : MonoBehaviour
     }
     [Header("Hook Detection Settings")]
     public float hookDistance = 2.0f;
-    public float hookTime = 0.5f;
+    public float hookTime = 5f;
 
     [Header("UI Elements")]
     public GameObject fishingPanel;
@@ -110,9 +111,9 @@ public class FishFightController : MonoBehaviour
     private float progress = 0f;
 
     // Fighting constants
-    private const float minValidPullAcceleration = 0.5f;
-    private const float maxValidPullAcceleration = 3f;
-    private const float tooHardPullAcceleration = 3f;
+    private const float minValidPullAcceleration = 2f;
+    private const float maxValidPullAcceleration = 4f;
+    private const float tooHardPullAcceleration = 4f;
     private const float progressIncrement = 20f;
     private const float progressDropPerWarning = 5f;
     private const int maxWarnings = 3;
@@ -152,7 +153,7 @@ public class FishFightController : MonoBehaviour
         if (progressText != null) progressText.gameObject.SetActive(false);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!isBaitReady) return;
 
@@ -178,7 +179,6 @@ public class FishFightController : MonoBehaviour
 
             if (timeInHookRange >= hookTime)
             {
-                PullRodSource.Play();
                 HookFish(fish);
             }
         }
@@ -240,7 +240,7 @@ public class FishFightController : MonoBehaviour
         isWaitingForHook = false;
 
         // Start fishing stage (which will show UI)
-        ThrowRodSource.Play();
+        hookedSource.Play();
         StartFishingStage();
         Debug.Log("Fish hooked! Starting fight sequence.");
     }
@@ -305,7 +305,7 @@ public class FishFightController : MonoBehaviour
         }
 
         // Rest of your existing StartFishingStage code...
-        Vibration.Vibrate(500);
+        Vibration.Vibrate(1000);
         Debug.Log("Vibration should have started (first time)");
         Invoke(nameof(VibrateAgain), 0.5f);
 
@@ -319,7 +319,7 @@ public class FishFightController : MonoBehaviour
     }
     void VibrateAgain()
     {
-        Vibration.Vibrate(500);
+        Vibration.Vibrate(1000);
         Debug.Log("Vibration should have started (second time)");
     }
 
@@ -340,6 +340,7 @@ public class FishFightController : MonoBehaviour
                 isFishing = false;
                 ShowStatus("Failed: fish runs away");
                 Debug.Log("Fishing failed: fish runs away");
+                failSource.Play();
             }
             else
             {
@@ -387,6 +388,7 @@ public class FishFightController : MonoBehaviour
                     if (progress > 100f) progress = 100f;
                     lastProgressUpdateTime = Time.time;
                     UpdateProgressUI();
+                    PullRodSource.Play();
                     Debug.Log($"Valid pull detected. Progress: {progress}%");
 
                     if (progress >= 100f)
@@ -423,6 +425,7 @@ public class FishFightController : MonoBehaviour
                     isFishing = false;
                     ShowStatus("Failed: your rod breaks");
                     Debug.Log("Fishing failed: rod breaks");
+                    failSource.Play();
                 }
 
                 canDetectTooHardPull = false;

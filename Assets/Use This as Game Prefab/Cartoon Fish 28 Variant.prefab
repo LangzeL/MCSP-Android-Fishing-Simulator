@@ -129,8 +129,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d770d57890d634ea303ec51a573db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swimSpeed: 0.4
+  swimSpeed: 2
   directionChangeInterval: 2
+  fishType: Normal
 --- !u!114 &5230602142726383008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,5 +146,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fishID: 28
   fishName: Crimson Splotch
-  score: 20
+  score: 50
   image: {fileID: 21300000, guid: 962fc0b67fa9d38498b61106718a5bcd, type: 3}

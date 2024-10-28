@@ -99,6 +99,7 @@ public class AuthManager : MonoBehaviour
             // User is logged in, proceed to game scene
             Debug.Log("Proceeding to game...");
 
+            OnLoginSuccess(user);
             GameManager.Instance.LoadAllFishData();
 
             // Load your game scene here
@@ -156,7 +157,6 @@ public class AuthManager : MonoBehaviour
             string displayName = GetDisplayName(user);
             playerNameText.text = "Welcome, " + displayName;
             HideLoginPanel();
-            OnLoginSuccess(user);
         });
     }
 
@@ -216,7 +216,6 @@ public class AuthManager : MonoBehaviour
                 string displayName = GetDisplayName(user);
                 playerNameText.text = "Welcome, " + displayName;
                 HideLoginPanel();
-                OnLoginSuccess(user);
             });
         }
         catch (Exception ex)
