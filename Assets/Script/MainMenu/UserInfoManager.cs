@@ -22,8 +22,7 @@ public class UserInfoManager : MonoBehaviour
 
         usernameText.text = "Username: " + userData.username;
         totalScoreText.text = "Total Score: " + userData.totalScore;
-        HashSet<string> fishCaughtSet = new HashSet<string>(userData.fishCaught);
-        fishCaughtCountText.text = "Fish Caught: " + fishCaughtSet.Count + " species";
+        fishCaughtCountText.text = "Fish Caught: " + userData.fishCaught.Count;
     }
 }
 
