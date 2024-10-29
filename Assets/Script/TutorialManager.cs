@@ -8,7 +8,7 @@ public class TutorialManager : MonoBehaviour
 {
     public GameObject tutorialCanvas;            // Reference to TutorialCanvas
     public Image tutorialImage;                  // Reference to TutorialImage
-    public TextMeshProUGUI tutorialText;                    // Reference to TutorialText
+    public Text tutorialText;                    // Reference to TutorialText
     public List<TutorialStep> tutorialSteps;      // List of all tutorial steps
     public float fadeDuration = 0.5f;            // Duration for fade effects
     public float blinkInterval = 0.5f;           // Interval for blinking effect
