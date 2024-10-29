@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class FishFightController : MonoBehaviour
 {
+    public TutorialManager tutorialManager; // Reference to TutorialManager
+    private bool hasReeledIn = false;        // Flag to ensure the tutorial advances only once
+
     public AudioSource failSource;
     public AudioSource hookedSource;
     public AudioSource PullRodSource;
@@ -39,6 +42,7 @@ public class FishFightController : MonoBehaviour
             Destroy(gameObject);
         }
 
+        if (GetComponent<TutorialManager>()) tutorialManager = GetComponent<TutorialManager>();
     }
 
     void InitializeUI()
@@ -118,7 +122,7 @@ public class FishFightController : MonoBehaviour
     private const float progressDropPerWarning = 5f;
     private const int maxWarnings = 3;
     private const float pullDetectionTimeWindow = 0.5f;
-    private const float noPullInterval = 1f;
+    private const float noPullInterval = 2f;
     private const float tooHardPullCooldownDuration = 1f;
     private const float progressUpdateInterval = 0.5f;
     private const string targetSceneName = "TiltTestScene";
@@ -274,6 +278,11 @@ public class FishFightController : MonoBehaviour
     {
         isFishing = true;
 
+        if (tutorialManager != null)
+        {
+            tutorialManager.NextStep();
+        }
+
         // Re-find UI elements if needed
         if (fishingPanel == null) fishingPanel = GameObject.Find("FishingPanel");
         if (statusText == null) statusText = GameObject.Find("StatusText")?.GetComponent<Text>();
@@ -305,7 +314,7 @@ public class FishFightController : MonoBehaviour
         }
 
         // Rest of your existing StartFishingStage code...
-        Vibration.Vibrate(1000);
+        Vibration.Vibrate(500);
         Debug.Log("Vibration should have started (first time)");
         Invoke(nameof(VibrateAgain), 0.5f);
 
@@ -319,7 +328,7 @@ public class FishFightController : MonoBehaviour
     }
     void VibrateAgain()
     {
-        Vibration.Vibrate(1000);
+        Vibration.Vibrate(500);
         Debug.Log("Vibration should have started (second time)");
     }
 
@@ -341,6 +350,12 @@ public class FishFightController : MonoBehaviour
                 ShowStatus("Failed: fish runs away");
                 Debug.Log("Fishing failed: fish runs away");
                 failSource.Play();
+
+                if (!hasReeledIn && (tutorialManager != null))
+                {
+                    tutorialManager.StopBlinking();
+                    tutorialManager.CloseTutorial();
+                }
             }
             else
             {
@@ -397,6 +412,13 @@ public class FishFightController : MonoBehaviour
                         ShowStatus("Success! You have the fish");
                         Debug.Log("Fishing succeeded");
 
+                        if (!hasReeledIn && (tutorialManager != null))
+                        {
+                            hasReeledIn = true;
+                            tutorialManager.StopBlinking();
+                            tutorialManager.CloseTutorial();
+                        }
+
                         if (hookedFish != null)
                         {
                             // Make sure this object persists
@@ -407,6 +429,7 @@ public class FishFightController : MonoBehaviour
                             Debug.Log("Fish and FishFightController set to persist");
                         }
 
+                        hookedSource.Play();
                         Invoke(nameof(SwitchToTiltTestScene), successMessageDuration);
                     }
                 }
@@ -426,6 +449,12 @@ public class FishFightController : MonoBehaviour
                     ShowStatus("Failed: your rod breaks");
                     Debug.Log("Fishing failed: rod breaks");
                     failSource.Play();
+
+                    if (!hasReeledIn && (tutorialManager != null))
+                    {
+                        tutorialManager.StopBlinking();
+                        tutorialManager.CloseTutorial();
+                    }
                 }
 
                 canDetectTooHardPull = false;

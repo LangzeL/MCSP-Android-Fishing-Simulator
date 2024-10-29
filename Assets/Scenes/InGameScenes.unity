@@ -1024,7 +1024,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 671}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &190339816
 MonoBehaviour:
@@ -1669,6 +1669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 608349f89f1be644bb72a706f4a6f5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialManager: {fileID: 1171638526}
   failSource: {fileID: 327002914}
   hookedSource: {fileID: 327002913}
   PullRodSource: {fileID: 327002912}
@@ -2023,7 +2024,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c4b72b3e98607914bb14cada1f019360, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 57781c6b45bb67249b07cedf384ff45e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5872,7 +5873,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1163876567
 MonoBehaviour:
@@ -5907,7 +5908,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Reset Game
+  m_Text: Refish
 --- !u!222 &1163876568
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5951,6 +5952,8 @@ MonoBehaviour:
   tutorialSteps:
   - stepImage: {fileID: 21300000, guid: c4b72b3e98607914bb14cada1f019360, type: 3}
     stepDescription: Wave the phone to throw the hook
+  - stepImage: {fileID: 21300000, guid: 57781c6b45bb67249b07cedf384ff45e, type: 3}
+    stepDescription: Pull the phone back to pull the rod
   fadeDuration: 0.5
   blinkInterval: 1
 --- !u!4 &1171638527
@@ -9875,7 +9878,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Wave the phone to throw the hook
+  m_text: "\rPull the phone back to pull the rod"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e719f61ab042ac94baf4b2e494f26531, type: 2}
   m_sharedMaterial: {fileID: -6474244447903513250, guid: e719f61ab042ac94baf4b2e494f26531,

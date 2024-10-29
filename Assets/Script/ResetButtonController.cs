@@ -20,7 +20,7 @@ public class ResetButtonController : MonoBehaviour
             Text buttonText = resetButton.GetComponentInChildren<Text>();
             if (buttonText != null)
             {
-                buttonText.text = "Reset Game";
+                buttonText.text = "Refish";
             }
         }
     }

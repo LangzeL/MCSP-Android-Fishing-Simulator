@@ -18,15 +18,7 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
-        // Check if tutorial has been completed
-        if (PlayerPrefs.GetInt("TutorialCompleted", 0) == 0)
-        {
-            ShowTutorial();
-        }
-        else
-        {
-            tutorialCanvas.SetActive(false);
-        }
+        ShowTutorial();
 
     }
 
@@ -37,7 +29,6 @@ public class TutorialManager : MonoBehaviour
         currentStepIndex = 0;
         DisplayCurrentStep();
         StartBlinking();
-        StartCoroutine(FadeInTutorial());
     }
 
     // Display the current tutorial step
@@ -60,13 +51,18 @@ public class TutorialManager : MonoBehaviour
         currentStepIndex++;
         if (currentStepIndex < tutorialSteps.Count)
         {
+            tutorialCanvas.SetActive(true);
             DisplayCurrentStep();
-            StartCoroutine(FadeInTutorial());
+            StartBlinking();
         }
         else
         {
             EndTutorial();
         }
+    }
+    public void CloseTutorial()
+    {
+        tutorialCanvas.SetActive(false);
     }
 
     // Skip the tutorial
@@ -80,8 +76,6 @@ public class TutorialManager : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(FadeOutTutorial());
-        PlayerPrefs.SetInt("TutorialCompleted", 1);
-        PlayerPrefs.Save();
     }
 
     // Start the blinking effect
@@ -184,13 +178,6 @@ public class TutorialManager : MonoBehaviour
         isBlinking = false;
     }
 
-    // Optional: Reset the tutorial (for testing or user request)
-    public void ResetTutorial()
-    {
-        PlayerPrefs.SetInt("TutorialCompleted", 0);
-        PlayerPrefs.Save();
-        ShowTutorial();
-    }
 }
 
 

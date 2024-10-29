@@ -129,7 +129,7 @@ public class FishingGestureDetector : MonoBehaviour
             {
                 hasCasted = true;
                 tutorialManager.StopBlinking();
-                tutorialManager.NextStep();
+                tutorialManager.CloseTutorial();
             }
 
             OnFishingStart?.Invoke();
