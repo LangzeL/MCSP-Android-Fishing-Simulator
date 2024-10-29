@@ -5951,9 +5951,9 @@ MonoBehaviour:
   tutorialText: {fileID: 2107045953}
   tutorialSteps:
   - stepImage: {fileID: 21300000, guid: c4b72b3e98607914bb14cada1f019360, type: 3}
-    stepDescription: Wave the phone to throw the hook
+    stepDescription: Wave your device to throw the hook
   - stepImage: {fileID: 21300000, guid: 57781c6b45bb67249b07cedf384ff45e, type: 3}
-    stepDescription: Pull the phone back to pull the rod
+    stepDescription: Pull your device back to pull the rod
   fadeDuration: 0.5
   blinkInterval: 1
 --- !u!4 &1171638527
@@ -9878,7 +9878,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\rPull the phone back to pull the rod"
+  m_text: Pull your device back to pull the rod
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e719f61ab042ac94baf4b2e494f26531, type: 2}
   m_sharedMaterial: {fileID: -6474244447903513250, guid: e719f61ab042ac94baf4b2e494f26531,
