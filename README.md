@@ -14,7 +14,7 @@ This project was developed by the COMP90018 Project Group T10-G01 at the Univers
   - 🆔 Student ID: 1126164
   - 📧 Email: [wendaz@student.unimelb.edu.au](mailto:wendaz@student.unimelb.edu.au)
 
-- **[Shanqing Huang](https://github.com/username3)**
+- **[Shanqing Huang][(https://github.com/shanqingh)**
   - 🆔 Student ID: 1266301
   - 📧 Email: [shanqingh@student.unimelb.edu.au](mailto:shanqingh@student.unimelb.edu.au)
 
