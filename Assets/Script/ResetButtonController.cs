@@ -9,7 +9,7 @@ public class ResetButtonController : MonoBehaviour
     public Button resetButton;
 
     [Tooltip("The name of the scene to reload. Leave empty to reload the current scene.")]
-    public string sceneName = "InGameScenes";
+    public string sceneName = "MainGameScene";
 
     void Start()
     {

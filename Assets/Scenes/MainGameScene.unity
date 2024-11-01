@@ -7261,7 +7261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resetButton: {fileID: 190339816}
-  sceneName: InGameScenes
+  sceneName: MainGameScene
 --- !u!1 &1554179577
 GameObject:
   m_ObjectHideFlags: 0

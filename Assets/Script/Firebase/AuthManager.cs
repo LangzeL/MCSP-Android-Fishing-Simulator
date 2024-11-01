@@ -103,7 +103,7 @@ public class AuthManager : MonoBehaviour
             GameManager.Instance.LoadAllFishData();
 
             // Load your game scene here
-            SceneManager.LoadScene("InGameScenes");
+            SceneManager.LoadScene("MainGameScene");
         }
         else
         {
@@ -277,7 +277,7 @@ public class AuthManager : MonoBehaviour
         playerNameText.text = "Please Login";
         Debug.Log("User logged out.");
         // Return to authentication scene
-        SceneManager.LoadScene("Loading Scenes");
+        SceneManager.LoadScene("StartScene");
     }
 
     // Method to handle authentication errors

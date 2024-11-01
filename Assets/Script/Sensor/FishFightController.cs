@@ -125,7 +125,7 @@ public class FishFightController : MonoBehaviour
     private const float noPullInterval = 2f;
     private const float tooHardPullCooldownDuration = 1f;
     private const float progressUpdateInterval = 0.5f;
-    private const string targetSceneName = "TiltTestScene";
+    private const string targetSceneName = "NetScene";
     private const float successMessageDuration = 3f;
 
     // Gesture detection
