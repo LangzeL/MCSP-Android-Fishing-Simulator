@@ -7,7 +7,7 @@ Welcome to the **Fishing Simulator Game**! This Unity-based mobile application o
 This project was developed by the COMP90018 Project Group T10-G01 at the University of Melbourne:
 
 - **[Langze Lu](https://github.com/LangzeL)**
-  - 🆔 Student ID: [ID]
+  - 🆔 Student ID: 1185039
   - 📧 Email: [langzel@student.unimelb.edu.au](langzel@student.unimelb.edu.au)
 
 - **[Wenda Zhang](https://github.com/WendaZhang08)**
@@ -19,7 +19,7 @@ This project was developed by the COMP90018 Project Group T10-G01 at the Univers
   - 📧 Email: [shanqingh@student.unimelb.edu.au](mailto:shanqingh@student.unimelb.edu.au)
 
 - **[Tianxi Peng](https://github.com/timpeng123)**
-  - 🆔 Student ID: [ID]
+  - 🆔 Student ID: 1169385
   - 📧 Email: [tianxip@student.unimelb.edu.au](mailto:tianxip@student.unimelb.edu.au)
   
 - **[Yilin Chen](https://github.com/6188145)**
