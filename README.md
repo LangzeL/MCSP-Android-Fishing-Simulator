@@ -1,6 +1,6 @@
-# Fishing Simulator Game
+# Fishing Simulator
 
-Welcome to the **Fishing Simulator Game**! This Unity-based mobile application offers an immersive fishing experience by integrating real-time camera feeds as the game background and guiding players through interactive tutorials. Whether you're a fishing enthusiast or just seeking a relaxing game, our Fishing Simulator provides engaging gameplay and stunning visuals.
+Welcome to the **Fishing Simulator**! This Unity-based mobile application offers an immersive fishing experience by integrating real-time camera feeds as the game background and guiding players through interactive tutorials. Whether you're a fishing enthusiast or just seeking a relaxing game, our Fishing Simulator provides engaging gameplay and stunning visuals.
 
 Check the Gameplay Video!
 <div align="center">
@@ -164,6 +164,8 @@ Ensure you have the Android Build Support module installed in Unity:
    - Unity will compile the project and install it on your device automatically.
 4. **Launch the App**:
    - Once installed, the app should launch automatically on your device. If not, manually open it from your device's app drawer.
+
+<img src="./Images/Successful Compiled.png" alt="Successful Compiled" width="600">
 
 ## Project Structure
 
