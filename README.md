@@ -2,7 +2,9 @@
 
 Welcome to the **Fishing Simulator Game**! This Unity-based mobile application offers an immersive fishing experience by integrating real-time camera feeds as the game background and guiding players through interactive tutorials. Whether you're a fishing enthusiast or just seeking a relaxing game, our Fishing Simulator provides engaging gameplay and stunning visuals.
 
-<img src="./Images/GameImage.png" alt="Game Image" width="300">
+<div align="center">
+  <img src="./Images/GameImage.png" alt="Game Image" width="300">
+</div>
 
 ## Authors
 
