@@ -2,7 +2,7 @@
 
 Welcome to the **Fishing Simulator Game**! This Unity-based mobile application offers an immersive fishing experience by integrating real-time camera feeds as the game background and guiding players through interactive tutorials. Whether you're a fishing enthusiast or just seeking a relaxing game, our Fishing Simulator provides engaging gameplay and stunning visuals.
 
-<img src="./images/GameImage.png" alt="Game Image" width="300">
+<img src="./Images/GameImage.png" alt="Game Image" width="300">
 
 ## Authors
 
@@ -104,7 +104,7 @@ Follow the instructions below to compile and run the app on your Android device.
 
 #### 1. Set Up Android Build Environment
 
-<img src="./images/Set Up Android Build Environment.png" alt="Set Up Android Build Environment">
+<img src="./Images/Set Up Android Build Environment.png" alt="Set Up Android Build Environment" width="600">
 
 Ensure you have the Android Build Support module installed in Unity:
 
@@ -116,7 +116,7 @@ Ensure you have the Android Build Support module installed in Unity:
 
 #### 2. Configure Project for Android
 
-<img src="./images/Configure Project for Android.png" alt="Configure Project for Android">
+<img src="./Images/Configure Project for Android.png" alt="Configure Project for Android" width="600">
 
 1. **Open Build Settings**:
    - Go to **File > Build Settings**.
@@ -148,7 +148,7 @@ Ensure you have the Android Build Support module installed in Unity:
 
 #### 4. Build and Run
 
-<img src="./images/Build and Run.png" alt="Build and Run">
+<img src="./Images/Build and Run.png" alt="Build and Run" width="600">
 
 1. **Open Build Settings**:
    - Go to **File > Build Settings**.
