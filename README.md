@@ -2,27 +2,34 @@
 
 Welcome to the **Fishing Simulator Game**! This Unity-based mobile application offers an immersive fishing experience by integrating real-time camera feeds as the game background and guiding players through interactive tutorials. Whether you're a fishing enthusiast or just seeking a relaxing game, our Fishing Simulator provides engaging gameplay and stunning visuals.
 
+<img src="./images/GameImage.png" alt="Game Image" width="300">
+
 ## Authors
 
 This project was developed by the COMP90018 Project Group T10-G01 at the University of Melbourne:
 
 - **[Langze Lu](https://github.com/LangzeL)**
+
   - 🆔 Student ID: 1185039
   - 📧 Email: [langzel@student.unimelb.edu.au](langzel@student.unimelb.edu.au)
 
 - **[Wenda Zhang](https://github.com/WendaZhang08)**
+
   - 🆔 Student ID: 1126164
   - 📧 Email: [wendaz@student.unimelb.edu.au](mailto:wendaz@student.unimelb.edu.au)
 
 - **[Shanqing Huang](https://github.com/shanqingh)**
+
   - 🆔 Student ID: 1266301
   - 📧 Email: [shanqingh@student.unimelb.edu.au](mailto:shanqingh@student.unimelb.edu.au)
 
 - **[Tianxi Peng](https://github.com/timpeng123)**
+
   - 🆔 Student ID: 1169385
   - 📧 Email: [tianxip@student.unimelb.edu.au](mailto:tianxip@student.unimelb.edu.au)
-  
+
 - **[Yilin Chen](https://github.com/6188145)**
+
   - 🆔 Student ID: 1239841
   - 📧 Email: [yilinc6@student.unimelb.edu.au](mailto:yilinc6@student.unimelb.edu.au)
 
@@ -87,7 +94,7 @@ Ensure all necessary Unity packages are imported:
 - **WebCamTexture**: For accessing the device's camera feed.
 - **Input System** (Optional): For handling accelerometer and inclinometer inputs more effectively.
 
-*Note: Unity usually prompts you to import essential packages like TextMeshPro when required.*
+_Note: Unity usually prompts you to import essential packages like TextMeshPro when required._
 
 ## Compiling and Running the App
 
@@ -96,6 +103,8 @@ Follow the instructions below to compile and run the app on your Android device.
 ### For Android
 
 #### 1. Set Up Android Build Environment
+
+<img src="./images/Set Up Android Build Environment.png" alt="Set Up Android Build Environment">
 
 Ensure you have the Android Build Support module installed in Unity:
 
@@ -106,6 +115,8 @@ Ensure you have the Android Build Support module installed in Unity:
 5. **Check "Android Build Support"** and install.
 
 #### 2. Configure Project for Android
+
+<img src="./images/Configure Project for Android.png" alt="Configure Project for Android">
 
 1. **Open Build Settings**:
    - Go to **File > Build Settings**.
@@ -137,6 +148,8 @@ Ensure you have the Android Build Support module installed in Unity:
 
 #### 4. Build and Run
 
+<img src="./images/Build and Run.png" alt="Build and Run">
+
 1. **Open Build Settings**:
    - Go to **File > Build Settings**.
 2. **Ensure "Run Device" is Selected**:
@@ -164,12 +177,13 @@ FishingSimulator/
 │   │   |   └── (Any Sensor Controller Scripts)
 │   │   └── (Other Script.cs)
 │   ├── Scenes/
-│   │   └── LoadingScene.unity
-│   │   └── InGameScene.unity
-│   │   └── TiltTestScene.unity
+│   │   └── StartScene.unity
+│   │   └── MainGameScene.unity
+│   │   └── NetScene.unity
 │   ├── Prefabs/
 │   │   └── (Any prefab assets)
 │   ├── UI/
+│   │   ├── Fonts/
 │   │   ├── Icons/
 │   │   └── (Other UI elements)
 │   └── (Other asset folders)
@@ -198,4 +212,3 @@ Please ensure your code follows the project's coding standards and includes appr
 ---
 
 **Enjoy fishing in the virtual world! 🎣🐟**
-
