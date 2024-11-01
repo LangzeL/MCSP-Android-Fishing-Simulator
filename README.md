@@ -2,6 +2,30 @@
 
 Welcome to the **Fishing Simulator Game**! This Unity-based mobile application offers an immersive fishing experience by integrating real-time camera feeds as the game background and guiding players through interactive tutorials. Whether you're a fishing enthusiast or just seeking a relaxing game, our Fishing Simulator provides engaging gameplay and stunning visuals.
 
+## Authors
+
+This project was developed by the COMP90018 Project Group T10-G01 at the University of Melbourne:
+
+- **[Langze Lu](https://github.com/LangzeL)**
+  - 🆔 Student ID: [ID]
+  - 📧 Email: [langzel@student.unimelb.edu.au](langzel@student.unimelb.edu.au)
+
+- **[Wenda Zhang](https://github.com/WendaZhang08)**
+  - 🆔 Student ID: 1126164
+  - 📧 Email: [wendaz@student.unimelb.edu.au](mailto:wendaz@student.unimelb.edu.au)
+
+- **[Shanqing Huang](https://github.com/username3)**
+  - 🆔 Student ID: 1266301
+  - 📧 Email: [shanqingh@student.unimelb.edu.au](mailto:shanqingh@student.unimelb.edu.au)
+
+- **[Tianxi Peng](https://github.com/timpeng123)**
+  - 🆔 Student ID: [ID]
+  - 📧 Email: [tianxip@student.unimelb.edu.au](mailto:tianxip@student.unimelb.edu.au)
+  
+- **[Yilin Chen](https://github.com/6188145)**
+  - 🆔 Student ID: 1239841
+  - 📧 Email: [yilinc6@student.unimelb.edu.au](mailto:yilinc6@student.unimelb.edu.au)
+
 ## Table of Contents
 
 - [Features](#features)
