@@ -165,7 +165,7 @@ Ensure you have the Android Build Support module installed in Unity:
 4. **Launch the App**:
    - Once installed, the app should launch automatically on your device. If not, manually open it from your device's app drawer.
 
-<img src="./Images/Successful Compiled.png" alt="Successful Compiled" width="600">
+<img src="./Images/Successful Compiled.jpg" alt="Successful Compiled" width="600">
 
 ## Project Structure
 
